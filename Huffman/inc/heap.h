@@ -25,13 +25,9 @@ int get_parent_index(int i);
 void swap(heap *new_heap, int index_1, int index_2);
 
 /*
-void enqueue();
-	
-	- função deve receber a heap e o nó que vai ser 
-	enfileirado em uma fila de prioridade;
-
-	- primeiramente, a função tem que adicionar o nó no final da heap;
-	- depois tem que fazer uma verificação, se o nó tem menos frequencia que o pai...
+	Enqueue -> Função para adicionar um nó da árvore de huffman
+	na fila de prioridade(Heap);
 */
+void enqueue(heap *new_heap, tree *node);
 
 #endif //HUFFMAN_HEAP_H
