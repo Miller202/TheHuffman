@@ -1,4 +1,5 @@
 #include "../inc/huff_tree.h"
+#include "../inc/heap.h"
 
 TREE *create_node(unsigned char character, long long int frequency, TREE *left, TREE *right)
 {  

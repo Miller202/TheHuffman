@@ -10,9 +10,9 @@
 #define HUFFMAN_HASH_H
 
 /*create_hash -> função para alocar memória para criar a tabela hash*/
-hash *create_hash();
+HASH *create_hash();
 
 /* put -> função para armazenar os bits dos caracteres do arquivo a ser compactado*/
-void put(hash *new_hash, int i, char *representation);
+void put(HASH *new_hash, int i, char *representation);
 
 #endif //HUFFMAN_HASH_H
