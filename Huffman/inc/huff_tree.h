@@ -11,4 +11,6 @@
 
 //Functions
 
+TREE *create_node(unsigned char character, long long int frequency, TREE *left, TREE *right);
+
 #endif //HUFFMAN_HUFF_TREE_H

@@ -2,11 +2,10 @@
 /* Structures to be used in the program*/
 
 /* Heap - Priority Queue */
-typedef struct HEAP heap;
-struct HEAP{
+typedef struct heap{
     int size;
-    void *items[257];
-};
+    void *data[257];
+}HEAP;
 
 /* Hash Table - to store the bits*/
 typedef struct HASH hash;
@@ -15,8 +14,8 @@ struct HASH{
 };
 
 /* Huffman Tree */
-typedef struct TREE tree;
-struct TREE{
+typedef struct tree TREE;
+struct tree{
     int frequency;
     unsigned char c;
     tree *left;

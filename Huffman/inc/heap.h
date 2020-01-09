@@ -10,24 +10,28 @@
 #define HUFFMAN_HEAP_H
 
 /*create_hash -> função para alocar memória para criar uma nova heap*/
-heap *create_heap();
-
-/* get_left_index -> função para retornar o índice do filho da esquerda*/
-int get_left_index(int i);
-
-/* get_right_index -> função para retornar o índice do filho da direita*/
-int get_right_index(int i);
-
+HEAP *create_heap();
 /* get_parent_index -> função para retornar o índice do nó do pai*/
-int get_parent_index(int i);
-
+int get_parent_index(HEAP *heap, int i);
+/* get_left_index -> função para retornar o índice do filho da esquerda*/
+int get_left_index(HEAP *heap, int i);
+/* get_right_index -> função para retornar o índice do filho da direita*/
+int get_right_index(HEAP *heap, int i);
 /* swap -> Função para trocar a posição de dois nós da heap*/
-void swap(heap *new_heap, int index_1, int index_2);
-
+void swap_data(heap *new_heap, int index_1, int index_2);
 /*
-	Enqueue -> Função para adicionar um nó da árvore de huffman
+	enqueue -> Função para adicionar um nó da árvore de huffman
 	na fila de prioridade(Heap);
 */
-void enqueue(heap *new_heap, tree *node);
+void enqueue(HEAP *heap, TREE *item);
+/*min_heapify -> função de manutenção das carateríticas do heap mínimo*/
+void min_heapify(HEAP *heap, int i);
+/*create_prioority_queue -> função para criar uma fila de prioridade(heap),
+a partir da frequência dos carácteres do arquivo*/
+void create_priority_queue(long long int *frequency, HEAP *heap);
+/*frequency_counter -> função para retornar um array com as 
+frequências dos caracteres do arquivo*/
+long long int *frequency_counter(FILE *file);
+
 
 #endif //HUFFMAN_HEAP_H
