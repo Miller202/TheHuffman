@@ -48,16 +48,6 @@ void enqueue(HEAP *heap, TREE *item)
   }
 }
 
-void create_priority_queue(long long int frequency[], HEAP *heap)
-{
-  int i;
-  for(i=0; i < 256; i++){
-    if (frequency[i] != 0){
-      enqueue(heap, create_node((unsigned char)i, frequency[i], NULL, NULL));
-    }
-  }
-}
-
 void min_heapify(HEAP *heap, int i)
 {
   int smallest;
@@ -75,6 +65,32 @@ void min_heapify(HEAP *heap, int i)
   if ((heap->data[i])->frequency != (heap->data[smallest])->frequency){
     swap_data(&heap->data[i], &heap->data[smallest]);
     min_heapify(heap, smallest);
+  }
+}
+
+void create_priority_queue(long long int frequency[], HEAP *heap)
+{
+  int i;
+  for(i=0; i < 256; i++){
+    if (frequency[i] != 0){
+      enqueue(heap, create_node((unsigned char)i, frequency[i], NULL, NULL));
+    }
+  }
+}
+
+TREE *dequeue(HEAP *heap)
+{
+  if(!(heap->size))
+  {
+    printf("Heap underflow.\n");
+  }
+  else{
+    /* Desenfileira o item da primeira posição da heap*/
+    TREE *item = heap->data[0];
+    heap->data[0] = heap->data[heap->size]; // item da última posição é colocado na primeira
+    heap->size-=1; //após o desenfileiramento a propriedade da heap foi quebrada
+    min_heapify(heap, 1); // portanto, chamamos a min_heapify para organizar a heap
+    return item; //retorna o item que foi desenfileirado
   }
 }
 

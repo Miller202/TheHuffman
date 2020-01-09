@@ -5,7 +5,7 @@
 typedef struct HEAP HEAP;
 struct HEAP{
     int size;
-    void *data[257];
+    void *data[256];
 };
 
 /* Hash Table - to store the bits*/
