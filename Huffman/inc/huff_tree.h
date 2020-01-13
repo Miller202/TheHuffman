@@ -27,7 +27,7 @@ TREE *create_huffman_tree(HEAP *heap);
 
 void map_paths(TREE *tree, HASH *hash);
 
-void read_pre_order_tree(TREE *tree, FILE *input);
+TREE *read_pre_order_tree(TREE *tree, FILE *input, int *tree_size);
 
 void write_pre_order_tree(TREE *tree, FILE *output);
 

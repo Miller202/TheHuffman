@@ -102,17 +102,23 @@ void map_paths(TREE *tree, HASH *hash, char *path, int i)
 	}
 }
 
-TREE *read_pre_order_tree(TREE *tree, FILE *input)
+TREE *read_pre_order_tree(TREE *tree, FILE *input, int *tree_size)
 {
-	// if (empty_tree(tree))
-	// 	return NULL;
+	if (tree_size == 0)
+		return NULL;
 
+	char c;
+	fread(c, 1, 1, input);
+	(*tree_size)--;
 
-	// tree->frequency = 
-	// tree->
+	if (escape_char(tree))
+		fread(c, 1, 1, input);
 
+	tree = create_node(c, 0, NULL, NULL);
+	tree->left = read_pre_order_tree(tree->left, input, tree_size);
+	tree->right = read_pre_order_tree(tree->right, input, tree_size);
 
-	// return tree;
+	return tree;
 }
 
 void write_pre_order_tree(TREE *tree, FILE *output)
