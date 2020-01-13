@@ -56,7 +56,7 @@ void free_tree(TREE *tree)
 	free(tree);
 }
 
-long long int get_parent_frequency(TREE *tree)	//podia inserir direto a exp. no new_node, mas achei mais legal c função
+long long int get_parent_frequency(TREE *tree)
 {
 	return tree->left->frequency + tree->right->frequency;
 }
@@ -77,17 +77,42 @@ TREE *create_huffman_tree(HEAP *heap)
 	return dequeue(heap);
 }
 
+void map_paths(TREE *tree, HASH *hash, char *path, int i)
+{
+	if empty_tree(tree)
+		return;
+
+	if (is_root(tree))
+	{
+		path[i] = '\0';
+		put(hash, (int) tree->c, path);
+		return;
+	}
+
+	if (!empty_tree(tree->left))
+	{
+		path[i++] = '0';
+		map_paths(tree->left, hash, path, i);
+	}
+
+	if (!empty_tree(tree->right))
+	{
+		path[i++] = '1';
+		map_paths(tree->right, hash, path, i);
+	}
+}
+
 TREE *read_pre_order_tree(TREE *tree, FILE *input)
 {
-	if (empty_tree(tree))
-		return NULL;
+	// if (empty_tree(tree))
+	// 	return NULL;
 
 
-	tree->frequency = 
-	tree->
+	// tree->frequency = 
+	// tree->
 
 
-	return tree;
+	// return tree;
 }
 
 void write_pre_order_tree(TREE *tree, FILE *output)
@@ -99,6 +124,6 @@ void write_pre_order_tree(TREE *tree, FILE *output)
 		fwrite('\\', 1, 1, output);
 		
 	fwrite(tree->c, 1, 1, output);
-	write_pre_order_tree(TREE *tree, FILE *output);
-	write_pre_order_tree(TREE *tree, FILE *output);
+	write_pre_order_tree(TREE *tree->left, FILE *output);
+	write_pre_order_tree(TREE *tree->right, FILE *output);
 }
