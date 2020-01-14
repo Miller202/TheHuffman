@@ -18,7 +18,7 @@ struct HASH{
 typedef struct TREE TREE;
 struct TREE{
     int frequency;
-    void* c;
+    unsigned char c;
     TREE *left;
     TREE *right;
 };
