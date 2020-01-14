@@ -7,10 +7,17 @@ typedef struct HASH{
 } HASH;
 
 
-/*create_hash -> função para alocar memória para criar a tabela hash*/
+/**
+*	Alocar memória para criar a tabela hash
+*	@return: posições da tabela são iniciadas em NULL
+**/
 HASH *create_hash();
 
-/* put -> função para armazenar os bits dos caracteres do arquivo a ser compactado*/
+/** 
+*	Armazenar os bits dos caracteres do arquivo a ser compactado
+	@param: recebe a tabela hash, a posição e a representação binária
+	@return: salva a nova representação no arquivo que vai ser compactado
+**/
 void put(HASH *new_hash, int i, char *representation);
 
 #endif //HUFFMAN_HASH_H

@@ -8,34 +8,69 @@ struct HEAP{
     void *data[256];
 };
 
-/*create_hash -> função para alocar memória para criar uma nova heap*/
+/**
+*	Aloca memória para criar um heap
+* 	@return: retorna o novo heap que foi criado
+**/
 HEAP *create_heap();
 
-/* get_parent_index -> função para retornar o índice do nó do pai*/
+/**
+* 	@param: recebe o índice de um nó do heap
+*	@return: retorna o índice do nó pai, calculado como: (i/2)
+**/
 int get_parent_index(int i);
-/* get_left_index -> função para retornar o índice do filho da esquerda*/
+
+/**
+* 	@param: recebe o índice de um nó do heap
+*	@return: retorna o índice do filho da esquerda, calculado como: (2*i)
+**/
 int get_left_index(int i);
-/* get_right_index -> função para retornar o índice do filho da direita*/
+
+/**
+* 	@param: recebe o índice de um nó do heap
+*	@return: retorna o índice do filho da direita, calculado como: [(2*i)+1]
+**/
 int get_right_index(int i);
 
-/* swap -> Função para trocar a posição de dois nós da heap*/
+/**
+* 	Função para trocar a posição de dois itens do heap
+* 	@param: recebe os dois itens
+*	@return: posições do item_1 e item_2 trocadas
+**/
 void swap_data(void** item_1, void** item_2);
 
-/*enqueue -> Função para adicionar um nó da árvore de huffman na fila de prioridade(Heap)*/
+/**
+* 	Adicionar um nó da árvore de huffman na fila de prioridade(Heap)
+* 	@param: recebe o heap e o nó que deve ser enfileirado
+*	@return: enfileira o nó na fila de prioridade(heap)
+**/
 void enqueue(HEAP *heap, void *item);
 
-/*min_heapify -> função de manutenção das carateríticas do heap mínimo*/
+/** 
+*	Função de manutenção das carateríticas do heap mínimo
+*	@param: recebe o heap e a posição do nó que deve ser comparado com os filhos
+*	@return: cumpre as propriedades, mantendo os pais sendo menores que os filhos 
+**/
 void min_heapify(HEAP *heap, int i);
 
-/*create_prioority_queue -> função para criar uma fila de prioridade(heap),
-a partir da frequência dos carácteres do arquivo*/
+/**
+* 	Criar uma fila de prioridade(heap), a partir da frequência dos caracteres do arquivo
+* 	@param: recebe um array com a frequencia dos caracteres e um heap
+*	@return: cria nós com caracteres de qualquer frequencia e os enfileira no heap
+**/
 void create_priority_queue(long long int *frequency, HEAP *heap);
 
-/*dequeue-> Função para desenfileirar um item da fila de prioridade(Heap)*/
+/**
+* 	Desenfileirar um item da fila de prioridade(Heap)
+* 	@param: recebe o heap
+*	@return: desenfileirará o nó na primeira posição do heap.
+**/
 void* dequeue(HEAP *heap);
 
-/*frequency_counter -> função para retornar um array com as 
-frequências dos caracteres do arquivo*/
+/**
+* 	@param: recebe o ponteiro do arquivo de entrada
+*	@return: retorna um array com as frequências dos caracteres do arquivo 
+**/
 long long int *frequency_counter(FILE *file);
 
 
