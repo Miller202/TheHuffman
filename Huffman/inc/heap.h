@@ -73,5 +73,7 @@ void* dequeue(HEAP *heap);
 **/
 long long int *frequency_counter(FILE *file);
 
+HEAP *mount_heap(FILE *file);
+
 
 #endif //HUFFMAN_HEAP_H

@@ -112,3 +112,12 @@ long long int *frequency_counter(FILE *file) {
 
     return frequency;
 }
+
+HEAP *mount_heap(FILE *file)
+{
+    HEAP *heap = create_heap();
+    long long int *frequency = frequency_counter(file);
+    create_priority_queue(frequency, heap);
+
+    return heap;
+}
