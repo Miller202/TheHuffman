@@ -1,13 +1,12 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-#include "structs.h"
-#include "hash.h"
-#include "huff_tree.h"
-
 #ifndef HUFFMAN_HEAP_H
 #define HUFFMAN_HEAP_H
+
+/* Heap - Priority Queue */
+typedef struct HEAP HEAP;
+struct HEAP{
+    int size;
+    void *data[256];
+};
 
 /*create_hash -> função para alocar memória para criar uma nova heap*/
 HEAP *create_heap();
@@ -20,10 +19,10 @@ int get_left_index(int i);
 int get_right_index(int i);
 
 /* swap -> Função para trocar a posição de dois nós da heap*/
-void swap_data(TREE** item_1, TREE** item_2);
+void swap_data(void** item_1, void** item_2);
 
 /*enqueue -> Função para adicionar um nó da árvore de huffman na fila de prioridade(Heap)*/
-void enqueue(HEAP *heap, TREE *item);
+void enqueue(HEAP *heap, void *item);
 
 /*min_heapify -> função de manutenção das carateríticas do heap mínimo*/
 void min_heapify(HEAP *heap, int i);
@@ -33,7 +32,7 @@ a partir da frequência dos carácteres do arquivo*/
 void create_priority_queue(long long int *frequency, HEAP *heap);
 
 /*dequeue-> Função para desenfileirar um item da fila de prioridade(Heap)*/
-TREE *dequeue(HEAP *heap);
+void* dequeue(HEAP *heap);
 
 /*frequency_counter -> função para retornar um array com as 
 frequências dos caracteres do arquivo*/

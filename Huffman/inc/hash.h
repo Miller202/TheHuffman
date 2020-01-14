@@ -1,13 +1,11 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-#include "structs.h"
-#include "heap.h"
-#include "huff_tree.h"
-
 #ifndef HUFFMAN_HASH_H
 #define HUFFMAN_HASH_H
+
+/* Hash Table - to store the bits*/
+typedef struct HASH{
+    void *table[256];
+} HASH;
+
 
 /*create_hash -> função para alocar memória para criar a tabela hash*/
 HASH *create_hash();
