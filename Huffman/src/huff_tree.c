@@ -1,3 +1,7 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 #include "../inc/huff_tree.h"
 #include "../inc/heap.h"
 
@@ -23,11 +27,11 @@ int is_root(TREE *tree)
 	return (tree->left == NULL) && (tree->right == NULL);
 }
 
-int escape_char(TREE *tree)
+int escape_char(TREE *tree, unsigned char c)
 {
 	if (is_root(tree))
 	{
-		return (tree->c == '*' || tree->c == '\\');
+		return (c == '*' || c == '\\');
 	}
 
 	return  0;
@@ -38,7 +42,7 @@ int tree_size(TREE *tree)
 	if (empty_tree(tree))
 		return 0;
 
-	if (escape_char(tree))
+	if (escape_char(tree, tree->c))
 		return 2;
 	
 	return 1 + tree_size(tree->left) + tree_size(tree->right);
@@ -68,7 +72,7 @@ TREE *create_huffman_tree(HEAP *heap)
 		TREE *left_child_tree = dequeue(heap);
 		TREE *right_child_tree = dequeue(heap);
 
-		TREE *parent_tree = new_node('*', 0, left_child_tree, right_child_tree);
+		TREE *parent_tree = create_node('*', 0, left_child_tree, right_child_tree);
 		parent_tree->frequency = get_parent_frequency(parent_tree);
 
 		enqueue(heap, parent_tree);
@@ -79,7 +83,7 @@ TREE *create_huffman_tree(HEAP *heap)
 
 void map_paths(TREE *tree, HASH *hash, char *path, int i)
 {
-	if empty_tree(tree)
+	if (empty_tree(tree))
 		return;
 
 	if (is_root(tree))
@@ -105,18 +109,38 @@ void map_paths(TREE *tree, HASH *hash, char *path, int i)
 TREE *read_pre_order_tree(TREE *tree, FILE *input, int *tree_size)
 {
 	if (tree_size == 0)
+	{
 		return NULL;
+	}
 
-	char c;
+	unsigned char c;
+
+	int is_leaf = 0;
 	fread(c, 1, 1, input);
 	(*tree_size)--;
 
-	if (escape_char(tree))
+	if (escape_char(tree, c))
+	{
 		fread(c, 1, 1, input);
+		is_leaf = 1;
+	}
+	else if (c != '*')
+	{
+		is_leaf = 1;
+	}
 
 	tree = create_node(c, 0, NULL, NULL);
-	tree->left = read_pre_order_tree(tree->left, input, tree_size);
-	tree->right = read_pre_order_tree(tree->right, input, tree_size);
+
+	if (is_leaf)
+	{
+		tree->left = NULL;
+		tree->right = NULL;
+	}
+	else
+	{
+		tree->left = read_pre_order_tree(tree->left, input, tree_size);
+		tree->right = read_pre_order_tree(tree->right, input, tree_size);
+	}
 
 	return tree;
 }
@@ -124,12 +148,17 @@ TREE *read_pre_order_tree(TREE *tree, FILE *input, int *tree_size)
 void write_pre_order_tree(TREE *tree, FILE *output)
 {
 	if (empty_tree(tree))
+	{
 		return;
-	
-	if (escape_char(tree))
+	}
+
+	if (escape_char(tree, tree->c))
+	{
 		fwrite('\\', 1, 1, output);
-		
+	}
+
 	fwrite(tree->c, 1, 1, output);
-	write_pre_order_tree(TREE *tree->left, FILE *output);
-	write_pre_order_tree(TREE *tree->right, FILE *output);
+	write_pre_order_tree(tree->left, output);
+	write_pre_order_tree(tree->right, output);
 }
+
