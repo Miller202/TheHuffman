@@ -37,7 +37,7 @@ int escape_char(TREE *tree, unsigned char c)
 	return  0;
 }
 
-int tree_size(TREE *tree)
+short tree_size(TREE *tree)
 {
 	if (empty_tree(tree))
 		return 0;

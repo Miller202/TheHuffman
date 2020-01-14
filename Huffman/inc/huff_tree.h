@@ -40,7 +40,7 @@ int escape_char(TREE *tree, unsigned char c);
 *   @param: árvore binária
 * 	@return: tamanho da árvore
 **/
-int tree_size(TREE *tree);
+short tree_size(TREE *tree);
 
 
 /**
