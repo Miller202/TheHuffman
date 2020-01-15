@@ -17,7 +17,7 @@ FILE *compress_file(FILE *input, FILE *output)
     TREE *huff_tree = create_huffman_tree(heap);
     
     HASH *paths = create_hash();
-    unsigned char *path;
+    char path[1000];
     map_paths(huff_tree, paths, path, 0);
 
     write_tree_size(huff_tree, output);
@@ -59,8 +59,8 @@ void open_files (char *input_name)
 void write_tree_size(TREE *tree, FILE *file)
 {
     short tree_sz = tree_size(tree);
-    tree_sz = tree_sz << 3;
-    tree_sz = tree_sz >> 3;
+    tree_sz <<= 3;
+    tree_sz >>= 3;
     fwrite(&tree_sz, 2, 1, file);
 }
 
@@ -81,7 +81,7 @@ void write_trash(unsigned char trash, FILE *file)
 
 unsigned char write_compress_doc(HASH *paths, FILE *input, FILE *output)
 {
-    int i = 0;
+    int i = 0, bt_cont = 7;
     unsigned char c, byte = 0;
 
     while (fread(&c, 1, 1, input) == 1)      //enquanto ler 1 byte
@@ -91,13 +91,14 @@ unsigned char write_compress_doc(HASH *paths, FILE *input, FILE *output)
         while (atual[i] != '\0')
         {
             if (atual[i] == '1')
-                byte = set_bit(byte, i % 8);
+                byte = set_bit(byte, bt_cont);
 
             i++;
+            bt_cont--;
 
-            if (i == 8)
+            if (bt_cont == -1)
             {
-                i = 0;
+                bt_cont = 7;
                 fwrite(&byte, 1, 1, output);
                 byte = 0;
             }   

@@ -95,7 +95,7 @@ void map_paths(TREE *tree, HASH *hash, char *path, int i)
 
 	if (!empty_tree(tree->left)) 		//há caminho à esquerda	
 	{
-		path[i++] = '0';		
+		path[i++] = '0';
 		map_paths(tree->left, hash, path, i);
 	}
 
@@ -154,7 +154,7 @@ void write_pre_order_tree(TREE *tree, FILE *output)
 
 	if (escape_char(tree, tree->c))		//se a folha tem um char especial, então escrevemos o caracter de escape
 	{
-		fwrite('\\', 1, 1, output);
+		fprintf(output, "%c", "\\");
 	}
 
 	fwrite(&tree->c, 1, 1, output);

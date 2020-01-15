@@ -32,8 +32,15 @@ void swap_data(void **item_1, void **item_2) {
 
 }
 
-void enqueue(HEAP *heap, void *item) {
+void swap_node(HEAP *heap, int i, int j) {
+    TREE *temp;
+    temp = heap->data[i];
+    heap->data[i] = heap->data[j];
+    heap->data[j] = temp;
+}
 
+
+void enqueue(HEAP *heap, void *item) {
     if (heap->size >= 256) {
         printf("Heap overflow.\n");
     } else {
@@ -44,7 +51,8 @@ void enqueue(HEAP *heap, void *item) {
 
         //Enquanto a frequência do índice atual for maior que a do seu pai, troque suas posições.
         while (parent_index >= 1 && ((TREE *)heap->data[key_index])->frequency < ((TREE *)heap->data[parent_index])->frequency) {
-            swap_data(&heap->data[parent_index], &heap->data[key_index]); // troca as posições
+            //swap_data(&heap->data[parent_index], &heap->data[key_index]); // troca as posições
+            swap_node(heap, key_index, parent_index);
             key_index = parent_index; //Atualiza o índice;
             parent_index = get_parent_index(key_index); //Guarda o índice do novo pai;
         }
@@ -71,8 +79,9 @@ void min_heapify(HEAP *heap, int i) {
     if (right_index <= heap->size && t_r->frequency < t_s->frequency) {
         smallest = right_index;
     }
-    if (t->frequency != t_s->frequency) {
-        swap_data(&heap->data[i], &heap->data[smallest]);
+    if (t->c != t_s->c) {
+        swap_node(heap, i, smallest);
+        //swap_data(&heap->data[i], &heap->data[smallest]);
         min_heapify(heap, smallest);
     }
 }

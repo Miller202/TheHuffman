@@ -4,7 +4,7 @@
 #include "heap.h"
 #include "hash.h"
 #include "huff_tree.h"
-#include <CUnit/CUnit.h>
+// #include <CUnit/CUnit.h>
 
 unsigned char set_bit(unsigned char c, int i);
 

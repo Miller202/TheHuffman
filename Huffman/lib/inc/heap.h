@@ -5,7 +5,7 @@
 typedef struct HEAP HEAP;
 struct HEAP{
     int size;
-    void *data[256];
+    void *data[257];
 };
 
 /**
@@ -75,5 +75,6 @@ long long int *frequency_counter(FILE *file);
 
 HEAP *mount_heap(FILE *file);
 
+void swap_node(HEAP *heap, int i, int j);
 
 #endif //HUFFMAN_HEAP_H
