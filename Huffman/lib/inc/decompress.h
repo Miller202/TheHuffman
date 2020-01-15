@@ -12,4 +12,6 @@ short get_trash_size(FILE *input);
 
 short get_tree_size(FILE *input);
 
+TREE* get_hufftree(FILE *input, TREE* tree);
+
 #endif //HUFFMAN_DECOMPRESS_H
