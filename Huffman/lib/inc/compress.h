@@ -4,6 +4,7 @@
 #include "heap.h"
 #include "hash.h"
 #include "huff_tree.h"
+#include <CUnit/CUnit.h>
 
 FILE *compress_file(FILE *input, char *input_name);
 
