@@ -4,13 +4,15 @@
 
 #include "../inc/compress.h"
 
-FILE *compress_file(FILE *input, char *input_name)
+unsigned char set_bit(unsigned char c, int i)
 {
-    //FILE *input = fopen(file, "rb");
+    unsigned char mask = 1 << i;
+    return mask | c;
+}
 
-    char *output_name = concat(input_name, ".huff");
-    FILE *output = fopen(output_name, "w+b");
 
+FILE *compress_file(FILE *input, FILE *output)
+{
     HEAP *heap = mount_heap(input);
     TREE *huff_tree = create_huffman_tree(heap);
     
@@ -21,13 +23,37 @@ FILE *compress_file(FILE *input, char *input_name)
     write_tree_size(huff_tree, output);
     write_pre_order_tree(huff_tree, output);
 
-    unsigned char trash = 'c';
-
-    // unsigned char trash = write_compress_doc(paths, input, output);
+    unsigned char trash = write_compress_doc(paths, input, output);
 
     write_trash(trash, output);
 
     return output;
+}
+
+void open_files (char *input_name)
+{
+    // if (is_compressed_file(input_name)) //se é um arquivo compactado .huff
+    // {
+    //     printf("Arquivo já compactado!");
+    //     return;
+    // }
+
+    FILE *input = fopen(input_name, "rb");
+    if (input == NULL)
+    {
+        printf("Erro de Memória!");
+        return;
+    }
+    
+    char *output_name = concat(input_name, ".huff");
+    FILE *output = fopen(output_name, "w+b");
+    if (output == NULL)
+    {
+        printf("Erro de Memória!");
+        exit(1);
+    }
+
+    compress_file(input, output);
 }
 
 void write_tree_size(TREE *tree, FILE *file)
@@ -35,7 +61,7 @@ void write_tree_size(TREE *tree, FILE *file)
     short tree_sz = tree_size(tree);
     tree_sz = tree_sz << 3;
     tree_sz = tree_sz >> 3;
-    fwrite(tree_sz, 2, 1, file);
+    fwrite(&tree_sz, 2, 1, file);
 }
 
 void write_trash(unsigned char trash, FILE *file)
@@ -43,32 +69,47 @@ void write_trash(unsigned char trash, FILE *file)
     fseek(file, 0, SEEK_SET);
 
     unsigned char c;
-    fread(c, 1, 1, file);
+    fread(&c, 1, 1, file);
 
     trash = trash << 5;
     trash |= c;
 
     fseek(file, 0, SEEK_SET);
-    fwrite(trash, 1, 1, file);
+    fwrite(&trash, 1, 1, file);
 
 }
 
-// char write_compress_doc(HASH *paths, FILE *input, FILE *output)
-// {
-//     unsigned char c;
+unsigned char write_compress_doc(HASH *paths, FILE *input, FILE *output)
+{
+    int i = 0;
+    unsigned char c, byte = 0;
 
-//     while (fread(c, 1, 1, input) == 1)
-//     {
-//         char *atual = paths->table[c];
+    while (fread(&c, 1, 1, input) == 1)      //enquanto ler 1 byte
+    {
+        unsigned char *atual = paths->table[c];         //pega o byte criptografado
 
-//         while (atual != '\0')
-//         {
-            
-//         }
-        
-//     }
+        while (atual[i] != '\0')
+        {
+            if (atual[i] == '1')
+                byte = set_bit(byte, i % 8);
+
+            i++;
+
+            if (i == 8)
+            {
+                i = 0;
+                fwrite(&byte, 1, 1, output);
+                byte = 0;
+            }   
+        }
+    }
+
+    if (i == 0)
+        return 0;
+
+    return (unsigned char) 8 - i;       //retorna o lixo do fim do arquivo
     
-// }
+}
 
 char* concat(char *s1, char *s2)      //essa função poderia ficar em outro arquivo
 {
