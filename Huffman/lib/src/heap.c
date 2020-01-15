@@ -10,7 +10,7 @@ HEAP *create_heap() {
     int i;
 
     heap->size = 0;
-    for (i = 0; i <= 256; ++i) {
+    for (i = 1; i <= 256; ++i) {
         heap->data[i] = NULL;
     }
 
@@ -40,7 +40,6 @@ void enqueue(HEAP *heap, void *item) {
         heap->data[++heap->size] = item; //Insere o nó na última posição na fila de prioridade;
         int key_index = heap->size; // Guarda o índice atual
         int parent_index = get_parent_index(key_index); // Guarda o índice do pai;
-
 
 
         //Enquanto a frequência do índice atual for maior que a do seu pai, troque suas posições.
@@ -93,8 +92,8 @@ void *dequeue(HEAP *heap) {
         return NULL;
     } else {
         /* Desenfileira o item da primeira posição da heap*/
-        void *item = heap->data[0];
-        heap->data[0] = heap->data[heap->size]; // item da última posição é colocado na primeira
+        void *item = heap->data[1];
+        heap->data[1] = heap->data[heap->size]; // item da última posição é colocado na primeira
         heap->size -= 1; //após o desenfileiramento a propriedade da heap foi quebrada
         min_heapify(heap, 1); // portanto, chamamos a min_heapify para organizar a heap
         return item; //retorna o item que foi desenfileirado
