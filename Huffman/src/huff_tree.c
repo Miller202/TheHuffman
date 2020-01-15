@@ -116,12 +116,12 @@ TREE *read_pre_order_tree(TREE *tree, FILE *input, int *tree_size)
 	unsigned char c;
 
 	int is_leaf = 0;
-	fread(c, 1, 1, input);
+	fread(&c, 1, 1, input);
 	(*tree_size)--;
 
 	if (escape_char(tree, c))		//se a folha tem um caracter de escape, lê o próximo char
 	{
-		fread(c, 1, 1, input);
+		fread(&c, 1, 1, input);
 		is_leaf = 1;
 	}
 	else if (c != '*')
@@ -157,7 +157,7 @@ void write_pre_order_tree(TREE *tree, FILE *output)
 		fwrite('\\', 1, 1, output);
 	}
 
-	fwrite(tree->c, 1, 1, output);
+	fwrite(&tree->c, 1, 1, output);
 	write_pre_order_tree(tree->left, output);
 	write_pre_order_tree(tree->right, output);
 }
