@@ -31,3 +31,21 @@ short get_tree_size(FILE *input)
 	tree_size = tree_size | byte;
 	return tree_size;
 }
+
+TREE* get_hufftree(FILE* input, TREE* tree){
+	unsigned char c;
+	fscanf(input, "%c",&c);
+	tree = create_node(c,0,NULL,NULL);
+
+	if(c == '*'){
+		tree->left = get_hufftree(tree->left);
+		tree->right = get_hufftree(tree->right);
+	}
+	else if(c=='\\'){
+		fscanf(input, "%c",&c);
+		tree = create_node(c,0,NULL,NULL);
+	}
+
+	return tree;
+
+}
