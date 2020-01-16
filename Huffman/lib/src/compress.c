@@ -82,34 +82,25 @@ void write_trash(unsigned char trash, FILE *file)
 
 unsigned char write_compress_doc(HASH *paths, FILE *input, FILE *output)
 {
-    int i = 0, bt_cont = 7, bt_sim = 0;
+    int i = 0, bt_cont = 7, size;
     unsigned char c, byte = 0;
-
-    char byte_simulation[9];
 
     while (fscanf(input, "%c", &c) != EOF)      //enquanto ler 1 byte
     {
         char *atual = paths->table[c];         //pega o byte criptografado
-        for(i = 0; i < strlen(atual); i++)
+        size = strlen(atual);
+        for(i = 0; i < size; i++)
         {
             if (atual[i] == '1') {
-                byte = set_bit(byte, bt_cont);
-                byte_simulation[bt_sim] = '1';
-            } else{
-                byte_simulation[bt_sim] = '0';
+                byte = set_bit(byte, bt_cont);      //atribui o bit 1 na posição do byte
             }
-            
             bt_cont--;
-            bt_sim++;
 
-            if (bt_cont == -1)
+            if (bt_cont == -1)      //se já formou um byte
             {
                 bt_cont = 7;
                 fwrite(&byte, 1, 1, output);
-                byte = 0;
-                for(bt_sim = 0; bt_sim < 8; bt_sim++)
-                    byte_simulation[bt_sim] = '#';
-                bt_sim = 0;
+                byte = 0;       //zera o byte pra começar tudo de novo
             }   
         }
     }

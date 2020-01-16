@@ -89,7 +89,7 @@ void map_paths(TREE *tree, HASH *hash, char *path, int i)
 	if (is_leaf(tree))		//se é uma folha, temos um caminho formado
 	{
 		path[i] = '\0';						//finaliza o caminho
-        char finish_path[strlen(path)];
+		char *finish_path = (char *) malloc(sizeof(char) * (strlen(path) + 1));
         strcpy(finish_path, path);
 		put(hash, (int) tree->c, finish_path);		//adiciona o caminho no hash
 		return;
@@ -163,4 +163,3 @@ void write_pre_order_tree(TREE *tree, FILE *output)
 	write_pre_order_tree(tree->left, output);
 	write_pre_order_tree(tree->right, output);
 }
-
