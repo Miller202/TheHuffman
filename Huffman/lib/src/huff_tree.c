@@ -75,7 +75,7 @@ TREE *create_huffman_tree(HEAP *heap)
 		TREE *parent_tree = create_node('*', 0, left_child_tree, right_child_tree);		//cria uma nova árvore, com a frequência igual a das 2 árvores de menor frequência
 		parent_tree->frequency = get_parent_frequency(parent_tree);
 
-		enqueue(heap, parent_tree);		//adiciona a nova árvore à heap
+		enqueue(heap, parent_tree->frequency, parent_tree);		//adiciona a nova árvore à heap
 	}
 
 	return dequeue(heap);			//retorna a raiz da árvore
@@ -89,7 +89,7 @@ void map_paths(TREE *tree, HASH *hash, char *path, int i)
 	if (is_leaf(tree))		//se é uma folha, temos um caminho formado
 	{
 		path[i] = '\0';						//finaliza o caminho
-        char finish_path[strlen(path)];
+		char *finish_path = (char *) malloc(sizeof(char) * (strlen(path) + 1));
         strcpy(finish_path, path);
 		put(hash, (int) tree->c, finish_path);		//adiciona o caminho no hash
 		return;
@@ -163,4 +163,3 @@ void write_pre_order_tree(TREE *tree, FILE *output)
 	write_pre_order_tree(tree->left, output);
 	write_pre_order_tree(tree->right, output);
 }
-

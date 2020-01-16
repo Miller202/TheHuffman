@@ -12,6 +12,6 @@
 
 int main()
 {
-    open_files("../../../Testes/test.txt");
+    open_files("../../../Testes/teste.txt");
     return 0;
 }

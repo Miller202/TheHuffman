@@ -25,10 +25,10 @@ HASH *create_hash()
 
 void put(HASH *new_hash, int key, char *representation)
 {
-	new_hash->table[key % 256] = representation;
+	new_hash->table[key] = representation;
 }
 
 void* get(HASH *ht, int key)
 {
-    return ht->table[key % 256];
+    return ht->table[key];
 }
