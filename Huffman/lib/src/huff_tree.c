@@ -89,20 +89,22 @@ void map_paths(TREE *tree, HASH *hash, char *path, int i)
 	if (is_leaf(tree))		//se é uma folha, temos um caminho formado
 	{
 		path[i] = '\0';						//finaliza o caminho
-		put(hash, (int) tree->c, path);		//adiciona o caminho no hash
+        char finish_path[strlen(path)];
+        strcpy(finish_path, path);
+		put(hash, (int) tree->c, finish_path);		//adiciona o caminho no hash
 		return;
 	}
 
 	if (!empty_tree(tree->left)) 		//há caminho à esquerda	
 	{
-		path[i++] = '0';
-		map_paths(tree->left, hash, path, i);
+		path[i] = '0';
+		map_paths(tree->left, hash, path, i + 1);
 	}
 
 	if (!empty_tree(tree->right))	//há caminho à direita
 	{
-		path[i++] = '1';
-		map_paths(tree->right, hash, path, i);
+		path[i] = '1';
+		map_paths(tree->right, hash, path, i + 1);
 	}
 }
 
