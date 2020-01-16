@@ -62,7 +62,7 @@ lli get_priority(HEAP *h, int index)
 
 void enqueue(HEAP *heap, lli priority, void *item)
 {
-    if (heap->size >= 256)
+    if (heap->size >= HEAP_MAX_SIZE - 1)
     {
         printf("Heap overflow.\n");
     }
@@ -118,6 +118,7 @@ void min_heapify(HEAP *heap, int i)
     if (right_index <= heap->size && t_r->priority < t_s->priority)
     {
         smallest = right_index;
+        t_s = heap->data[smallest];
     }
 
     if (t != t_s)
@@ -150,5 +151,15 @@ void *dequeue(HEAP *heap)
 
         //retorna o item que foi desenfileirado
         return item->data;
+    }
+}
+
+
+void print_heap(HEAP *heap, void (*print_func)(void *data))
+{
+    for (int i = 1; i <= heap->size; ++i)
+    {
+        print_func(((_node *) heap->data[i])->data);
+        printf(" ");
     }
 }

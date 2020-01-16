@@ -141,8 +141,46 @@ void enqueue_test()
     CU_ASSERT_STRING_EQUAL(dequeue(h), "p9")
     CU_ASSERT_STRING_EQUAL(dequeue(h), "p15")
 
-}
+    CU_ASSERT_PTR_NULL(dequeue(h))
 
+    enqueue(h, 6, "A");
+    enqueue(h, 5, "B");
+    enqueue(h, 4, "C");
+    enqueue(h, 3, "D");
+    enqueue(h, 2, "E");
+    enqueue(h, 1, "F");
+
+
+    CU_ASSERT_STRING_EQUAL(dequeue(h), "F")
+    CU_ASSERT_STRING_EQUAL(dequeue(h), "E")
+
+    enqueue(h, 3, "*1");
+
+    CU_ASSERT_STRING_EQUAL(dequeue(h), "D")
+    CU_ASSERT_STRING_EQUAL(dequeue(h), "*1")
+
+    enqueue(h, 6, "*2");
+
+    CU_ASSERT_STRING_EQUAL(dequeue(h), "C")
+    CU_ASSERT_STRING_EQUAL(dequeue(h), "B")
+
+    enqueue(h, 9, "*3");
+
+    CU_ASSERT_STRING_EQUAL(dequeue(h), "*2")
+    CU_ASSERT_STRING_EQUAL(dequeue(h), "A")
+
+    enqueue(h, 12, "*4");
+
+    CU_ASSERT_STRING_EQUAL(dequeue(h), "*3")
+    CU_ASSERT_STRING_EQUAL(dequeue(h), "*4")
+
+    enqueue(h, 21, "*5");
+
+    CU_ASSERT_STRING_EQUAL(dequeue(h), "*5")
+
+    CU_ASSERT_PTR_NULL(dequeue(h))
+
+}
 
 int main (int argc, char** argv)
 {

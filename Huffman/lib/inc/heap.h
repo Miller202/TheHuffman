@@ -64,4 +64,6 @@ void min_heapify(HEAP *heap, int i);
 **/
 void* dequeue(HEAP *heap);
 
+void print_heap(HEAP *heap, void (*print_func)(void *data));
+
 #endif //HUFFMAN_HEAP_H
