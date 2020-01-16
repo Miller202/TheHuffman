@@ -75,7 +75,7 @@ TREE *create_huffman_tree(HEAP *heap)
 		TREE *parent_tree = create_node('*', 0, left_child_tree, right_child_tree);		//cria uma nova árvore, com a frequência igual a das 2 árvores de menor frequência
 		parent_tree->frequency = get_parent_frequency(parent_tree);
 
-		enqueue(heap, parent_tree);		//adiciona a nova árvore à heap
+		enqueue(heap, parent_tree->frequency, parent_tree);		//adiciona a nova árvore à heap
 	}
 
 	return dequeue(heap);			//retorna a raiz da árvore

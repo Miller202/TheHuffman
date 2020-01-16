@@ -38,8 +38,8 @@ TREE* get_hufftree(FILE* input, TREE* tree){
 	tree = create_node(c,0,NULL,NULL);
 
 	if(c == '*'){
-		tree->left = get_hufftree(tree->left);
-		tree->right = get_hufftree(tree->right);
+		tree->left = get_hufftree(input, tree->left);
+		tree->right = get_hufftree(input, tree->right);
 	}
 	else if(c=='\\'){
 		fscanf(input, "%c",&c);

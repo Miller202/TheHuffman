@@ -1,12 +1,16 @@
 #ifndef HUFFMAN_HEAP_H
 #define HUFFMAN_HEAP_H
 
+#define HEAP_MAX_SIZE 257
+
 /* Heap - Priority Queue */
 typedef struct HEAP HEAP;
 struct HEAP{
     int size;
-    void *data[257];
+    void *data[HEAP_MAX_SIZE];
 };
+
+typedef long long int lli;
 
 /**
 *	Aloca memória para criar um heap
@@ -41,10 +45,10 @@ void swap_data(void** item_1, void** item_2);
 
 /**
 * 	Adicionar um nó da árvore de huffman na fila de prioridade(Heap)
-* 	@param: recebe o heap e o nó que deve ser enfileirado
+* 	@param: recebe o heap, a prioridade do novo item e seus dados
 *	@return: enfileira o nó na fila de prioridade(heap)
 **/
-void enqueue(HEAP *heap, void *item);
+void enqueue(HEAP *heap, lli priority, void *item);
 
 /** 
 *	Função de manutenção das carateríticas do heap mínimo
@@ -54,27 +58,10 @@ void enqueue(HEAP *heap, void *item);
 void min_heapify(HEAP *heap, int i);
 
 /**
-* 	Criar uma fila de prioridade(heap), a partir da frequência dos caracteres do arquivo
-* 	@param: recebe um array com a frequencia dos caracteres e um heap
-*	@return: cria nós com caracteres de qualquer frequencia e os enfileira no heap
-**/
-void create_priority_queue(long long int *frequency, HEAP *heap);
-
-/**
 * 	Desenfileirar um item da fila de prioridade(Heap)
 * 	@param: recebe o heap
 *	@return: desenfileirará o nó na primeira posição do heap.
 **/
 void* dequeue(HEAP *heap);
-
-/**
-* 	@param: recebe o ponteiro do arquivo de entrada
-*	@return: retorna um array com as frequências dos caracteres do arquivo 
-**/
-long long int *frequency_counter(FILE *file);
-
-HEAP *mount_heap(FILE *file);
-
-void swap_node(HEAP *heap, int i, int j);
 
 #endif //HUFFMAN_HEAP_H
