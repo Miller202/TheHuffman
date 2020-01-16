@@ -3,9 +3,9 @@
 # Edit at https://www.gitignore.io/?templates=c,linux,cmake,windows
 
 ## Compressed ##
-.huff
+*.*.huff
 
 ## Videos ##
-.mp3
-.mp4
+*.mp3
+*.mp4
 # End of https://www.gitignore.io/api/c,linux,cmake,windows
