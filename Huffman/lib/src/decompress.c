@@ -32,20 +32,87 @@ short get_tree_size(FILE *input)
 	return tree_size;
 }
 
-TREE* get_hufftree(FILE* input, TREE* tree){
+TREE* get_hufftree(FILE* input, TREE* tree)
+{
 	unsigned char c;
 	fscanf(input, "%c",&c);
-	tree = create_node(c,0,NULL,NULL);
+	tree = create_node(c, 0, NULL, NULL);
 
 	if(c == '*'){
-		tree->left = get_hufftree(tree->left);
-		tree->right = get_hufftree(tree->right);
+		tree->left = get_hufftree(input, tree->left);
+		tree->right = get_hufftree(input, tree->right);
 	}
 	else if(c=='\\'){
 		fscanf(input, "%c",&c);
-		tree = create_node(c,0,NULL,NULL);
+		tree = create_node(c, 0, NULL, NULL);
 	}
 
 	return tree;
+}
 
+void decompress_file(FILE* input, FILE* output, TREE* tree, short trash_size)
+{
+	TREE* new_tree = tree;
+
+	int i;
+	unsigned char c_1, c_2;
+
+	fscanf(input, "%c", &c_1);
+	while(fscanf(input, "%c", &c_2) != EOF)
+	{
+		for(i = 7; i >= 0; i--)
+		{
+			if(is_bit_set(c_1, i))
+			{
+				new_tree = new_tree->right;
+			}
+			else{
+				new_tree = new_tree->left;
+			}
+
+			if(is_leaf(new_tree))
+			{
+				fprintf(output, "%c", *((unsigned char *)new_tree->c));
+				new_tree = tree;
+			}
+		}
+		c_1 = c_2;
+	}
+
+	for(i = 7; i >= trash_size; i--)
+	{
+		if(is_bit_set(c_1, i))
+        {
+            new_tree = new_tree->right;
+        }
+        else{
+            new_tree = new_tree->left;
+        }
+
+        if(is_leaf(new_tree))
+		{
+			fprintf(output, "%c", *((unsigned char *)new_tree->c));
+			new_tree = tree;
+		}
+	}
+}
+
+void decompress(char input_path[], char output_path[])
+{
+	FILE* input;
+	FILE* output;
+
+	input = fopen(input_path, "r");
+	output = fopen(output_path, "w");
+
+	short trash_size = get_trash_size(input);
+
+	TREE* tree;
+
+	tree = get_hufftree(input, tree);
+
+	decompress_file(input, output, tree, trash_size);
+
+	fclose(input);
+	fclose(output);
 }
