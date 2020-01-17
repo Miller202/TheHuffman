@@ -6,6 +6,7 @@
 
 int main()
 {
-    open_files("../../../Testes/test.txt");
+    open_files("../../../Testes/green.png");
+
     return 0;
 }

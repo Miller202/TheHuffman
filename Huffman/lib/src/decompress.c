@@ -72,7 +72,7 @@ void decompress_file(FILE* input, FILE* output, TREE* tree, short trash_size)
 
 			if(is_leaf(new_tree))
 			{
-				fprintf(output, "%c", *((unsigned char *)new_tree->c));
+				fprintf(output, "%c", &new_tree->c);
 				new_tree = tree;
 			}
 		}
@@ -91,7 +91,7 @@ void decompress_file(FILE* input, FILE* output, TREE* tree, short trash_size)
 
         if(is_leaf(new_tree))
 		{
-			fprintf(output, "%c", *((unsigned char *)new_tree->c));
+			fprintf(output, "%c", &new_tree->c);
 			new_tree = tree;
 		}
 	}
