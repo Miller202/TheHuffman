@@ -25,7 +25,13 @@ FILE *compress_file(FILE *input, FILE *output)
     char path[1000];
     map_paths(huff_tree, paths, path, 0);
 
+    print_hash(paths);
+
     write_tree_size(huff_tree, output);
+
+    print_tree_pre_order_char(huff_tree);
+    printf("\n");
+
     write_pre_order_tree(huff_tree, output);
 
     unsigned char trash = write_compress_doc(paths, input, output);
@@ -63,10 +69,19 @@ void open_files (char *input_name)
 
 void write_tree_size(TREE *tree, FILE *file)
 {
-    short tree_sz = tree_size(tree);
-    tree_sz <<= 3;
-    tree_sz >>= 3;
-    fwrite(&tree_sz, 2, 1, file);
+    unsigned short tree_sz = tree_size(tree);
+
+    // > 0000 0000 1111 1111
+    if (tree_sz > 255)
+    {
+        fwrite(&tree_sz, 2, 1, file);
+    }
+    else
+    {
+        unsigned char zero = 0;
+        fwrite(&zero, 1, 1, file);
+        fwrite(&tree_sz, 1, 1, file);
+    }
 }
 
 void write_trash(unsigned char trash, FILE *file)
@@ -81,30 +96,42 @@ void write_trash(unsigned char trash, FILE *file)
 
     rewind(file);
     fwrite(&trash, 1, 1, file);
-
 }
 
 unsigned char write_compress_doc(HASH *paths, FILE *input, FILE *output)
 {
-    int i = 0, bt_cont = 7, size;
-    unsigned char c, byte = 0;
+    int i = 0;
+    int bt_cont = 7;
+    int size;
 
-    while (fscanf(input, "%c", &c) != EOF)      //enquanto ler 1 byte
+    unsigned char c;
+    unsigned char byte = 0;
+
+    // Enquanto ler 1 byte
+    while (fscanf(input, "%c", &c) != EOF)
     {
-        char *atual = paths->table[c];         //pega o byte criptografado
+        // Pega o byte criptografado
+        char *atual = paths->table[c];
+
         size = strlen(atual);
         for(i = 0; i < size; i++)
         {
-            if (atual[i] == '1') {
-                byte = set_bit(byte, bt_cont);      //atribui o bit 1 na posição do byte
+            if (atual[i] == '1')
+            {
+                // Atribui o bit 1 na posição do byte
+                byte = set_bit(byte, bt_cont);
             }
+
             bt_cont--;
 
-            if (bt_cont == -1)      //se já formou um byte
+            // Se já formou um byte
+            if (bt_cont == -1)
             {
                 bt_cont = 7;
                 fwrite(&byte, 1, 1, output);
-                byte = 0;       //zera o byte pra começar tudo de novo
+
+                // Zera o byte pra começar tudo de novo
+                byte = 0;
             }   
         }
     }
@@ -114,15 +141,19 @@ unsigned char write_compress_doc(HASH *paths, FILE *input, FILE *output)
 
     fwrite(&byte, 1, 1, output);
 
-    return (unsigned char) 8 - (i - 1);       //retorna o lixo do fim do arquivo
-    
+    // Retorna o lixo do fim do arquivo
+    return (unsigned char) 8 - (i - 1);
 }
 
-char* concat(char *s1, char *s2)      //essa função poderia ficar em outro arquivo
+// TODO: Essa função poderia ficar em outro arquivo
+char* concat(char *s1, char *s2)
 {
-    char *result = malloc(strlen(s1) + strlen(s2) + 1); // +1 for the null-terminator
-    // in real code you would check for errors in malloc here
+    // +1 for the null-terminator
+    char *result = malloc(strlen(s1) + strlen(s2) + 1);
+
+    // TODO: In real code you would check for errors in malloc here
     strcpy(result, s1);
     strcat(result, s2);
+
     return result;
 }

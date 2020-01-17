@@ -12,6 +12,8 @@ void create_priority_queue(long long int frequency[], HEAP *heap) {
             enqueue(heap, frequency[i], create_node((unsigned char) i, frequency[i], NULL, NULL));
         }
     }
+    print_heap(heap, print_tree_node_heap);
+    printf("\n");
 }
 
 long long int *frequency_counter(FILE *file) {
@@ -33,4 +35,9 @@ HEAP *mount_heap(FILE *file)
     create_priority_queue(frequency, heap);
 
     return heap;
+}
+
+void print_tree_node_heap(void *tree)
+{
+    print_tree_node((TREE *) tree);
 }

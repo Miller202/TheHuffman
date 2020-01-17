@@ -2,11 +2,13 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "../inc/huff_tree.h"
-#include "../inc/heap.h"
+#include "huff_tree.h"
+#include "heap.h"
+#include "utils.h"
+
 
 TREE *create_node(unsigned char character, long long int frequency, TREE *left, TREE *right)
-{  
+{
 	TREE *new_node = (TREE*)malloc(sizeof(TREE));
 
 	new_node->c = character;
@@ -17,7 +19,7 @@ TREE *create_node(unsigned char character, long long int frequency, TREE *left, 
 	return new_node;
 }
 
-int empty_tree(TREE *tree)
+int is_empty(TREE *tree)
 {
 	return tree == NULL;
 }
@@ -37,27 +39,31 @@ int escape_char(TREE *tree, unsigned char c)
 	return  0;
 }
 
-short tree_size(TREE *tree)
+unsigned short tree_size(TREE *tree)
 {
-	if (empty_tree(tree))
-		return 0;
+	if (is_empty(tree))
+    {
+        return 0;
+    }
 
-	if (escape_char(tree, tree->c))				//se um caracter especial está numa folha, no arquivo de texto, será escrito com 2 chars ('\*' ou '\\')
-		return 2;
-	
+    // Se um caracter especial está numa folha, no arquivo de texto, será escrito com 2 chars ('\*' ou '\\')
+	if (escape_char(tree, tree->c))
+    {
+        return 2;
+    }
+
 	return 1 + tree_size(tree->left) + tree_size(tree->right);
-
 }
 
 void free_tree(TREE *tree)
 {
-	if (empty_tree(tree))
-		return;
+	if (!is_empty(tree))
+    {
+        free_tree(tree->left);
+        free_tree(tree->right);
 
-	free_tree(tree->left);
-	free_tree(tree->right);
-
-	free(tree);
+        free(tree);
+    }
 }
 
 long long int get_parent_frequency(TREE *tree)
@@ -67,50 +73,80 @@ long long int get_parent_frequency(TREE *tree)
 
 TREE *create_huffman_tree(HEAP *heap)
 {
-	while (heap->size > 1)			//enquanto restar mais de 1 árvore na heap
+    // Enquanto restar mais de 1 árvore na heap
+	while (heap->size > 1)
 	{
-		TREE *left_child_tree = dequeue(heap);			//pega as 2 árvores de menor frequência
-		TREE *right_child_tree = dequeue(heap);
+	    printf("dequeue: ");
 
-		TREE *parent_tree = create_node('*', 0, left_child_tree, right_child_tree);		//cria uma nova árvore, com a frequência igual a das 2 árvores de menor frequência
+        // Pega as 2 árvores de menor frequência
+		TREE *left_child_tree = dequeue(heap);
+
+        print_tree_pre_order(left_child_tree);
+        printf(" | ");
+
+		TREE *right_child_tree = dequeue(heap);
+        print_tree_pre_order(right_child_tree);
+        printf("\n");
+
+        // Cria uma nova árvore, com a frequência igual a das 2 árvores de menor frequência
+        TREE *parent_tree = create_node('*', 0, left_child_tree, right_child_tree);
 		parent_tree->frequency = get_parent_frequency(parent_tree);
 
-		enqueue(heap, parent_tree->frequency, parent_tree);		//adiciona a nova árvore à heap
+        // Adiciona a nova árvore à heap
+		enqueue(heap, parent_tree->frequency, parent_tree);
+
+		printf("heap: ");
+        print_heap(heap, print_tree_node_heap);
+        printf("\n\n");
 	}
 
-	return dequeue(heap);			//retorna a raiz da árvore
+    printf("\n");
+	TREE *t = dequeue(heap);
+    print_tree_pre_order(t);
+
+    // Retorna a raiz da árvore
+	return t;
 }
 
 void map_paths(TREE *tree, HASH *hash, char *path, int i)
 {
-	if (empty_tree(tree))
-		return;
+	if (!is_empty(tree))
+    {
+        // Se é uma folha, temos um caminho formado
+        if (is_leaf(tree))
+        {
+            // Finaliza o caminho
+            path[i] = '\0';
 
-	if (is_leaf(tree))		//se é uma folha, temos um caminho formado
-	{
-		path[i] = '\0';						//finaliza o caminho
-		char *finish_path = (char *) malloc(sizeof(char) * (strlen(path) + 1));
-        strcpy(finish_path, path);
-		put(hash, (int) tree->c, finish_path);		//adiciona o caminho no hash
-		return;
-	}
+            char *finish_path = (char *) malloc(sizeof(char) * (strlen(path) + 1));
+            strcpy(finish_path, path);
 
-	if (!empty_tree(tree->left)) 		//há caminho à esquerda	
-	{
-		path[i] = '0';
-		map_paths(tree->left, hash, path, i + 1);
-	}
+            // Adiciona o caminho no hash
+            put(hash, (int) tree->c, finish_path);
+        }
+        else
+        {
+            // Há caminho à esquerda
+            if (!is_empty(tree->left))
+            {
+                path[i] = '0';
+                map_paths(tree->left, hash, path, i + 1);
+            }
 
-	if (!empty_tree(tree->right))	//há caminho à direita
-	{
-		path[i] = '1';
-		map_paths(tree->right, hash, path, i + 1);
-	}
+            // Há caminho à direita
+            if (!is_empty(tree->right))
+            {
+                path[i] = '1';
+                map_paths(tree->right, hash, path, i + 1);
+            }
+        }
+    }
 }
 
 TREE *read_pre_order_tree(TREE *tree, FILE *input, int *tree_size)
 {
-	if (tree_size == 0)			//termina de ler a árvore
+    // Termina de ler a árvore
+	if (tree_size == 0)
 	{
 		return NULL;
 	}
@@ -121,7 +157,8 @@ TREE *read_pre_order_tree(TREE *tree, FILE *input, int *tree_size)
 	fread(&c, 1, 1, input);
 	(*tree_size)--;
 
-	if (escape_char(tree, c))		//se a folha tem um caracter de escape, lê o próximo char
+    // Se a folha tem um caracter de escape, lê o próximo char
+	if (escape_char(tree, c))
 	{
 		fread(&c, 1, 1, input);
 		is_leaf = 1;
@@ -133,7 +170,8 @@ TREE *read_pre_order_tree(TREE *tree, FILE *input, int *tree_size)
 
 	tree = create_node(c, 0, NULL, NULL);
 
-	if (is_leaf)				//se for uma folha, não há nó filho
+    // Se for uma folha, não há nó filho
+	if (is_leaf)
 	{
 		tree->left = NULL;
 		tree->right = NULL;
@@ -149,12 +187,13 @@ TREE *read_pre_order_tree(TREE *tree, FILE *input, int *tree_size)
 
 void write_pre_order_tree(TREE *tree, FILE *output)
 {
-	if (empty_tree(tree))
+	if (is_empty(tree))
 	{
 		return;
 	}
 
-	if (escape_char(tree, tree->c))		//se a folha tem um char especial, então escrevemos o caracter de escape
+    // Se a folha tem um char especial, então escrevemos o caracter de escape
+	if (escape_char(tree, tree->c))
 	{
 		fprintf(output, "%c", "\\");
 	}
@@ -162,4 +201,31 @@ void write_pre_order_tree(TREE *tree, FILE *output)
 	fwrite(&tree->c, 1, 1, output);
 	write_pre_order_tree(tree->left, output);
 	write_pre_order_tree(tree->right, output);
+}
+
+void print_tree_node(TREE *t)
+{
+    printf("<%c, %lld>", t->c, t->frequency);
+}
+
+void print_tree_pre_order(TREE *t)
+{
+    if (!is_empty(t))
+    {
+        printf(" (");
+        print_tree_node(t);
+        print_tree_pre_order(t->left);
+        print_tree_pre_order(t->right);
+        printf(") ");
+    }
+}
+
+void print_tree_pre_order_char(TREE *t)
+{
+    if (!is_empty(t))
+    {
+        printf("%c", t->c);
+        print_tree_pre_order_char(t->left);
+        print_tree_pre_order_char(t->right);
+    }
 }

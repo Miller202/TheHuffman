@@ -21,4 +21,7 @@ long long int *frequency_counter(FILE *file);
 
 HEAP *mount_heap(FILE *file);
 
+
+void print_tree_node_heap(void *tree);
+
 #endif //HUFFMAN_UTILS_H

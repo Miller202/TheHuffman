@@ -31,4 +31,6 @@ void put(HASH *new_hash, int key, char *representation);
 **/
 void* get(HASH *ht, int key);
 
+void print_hash(HASH *ht);
+
 #endif //HUFFMAN_HASH_H

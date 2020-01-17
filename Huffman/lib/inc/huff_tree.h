@@ -19,7 +19,7 @@ typedef struct TREE{
 *   @param: árvore binária
 * 	@return: 1 para verdadeiro e 0 para falso
 **/
-int empty_tree(TREE *tree);
+int is_empty(TREE *tree);
 
 /**
 *	Verifica se a árvore é uma folha (não tem filho à esquerda nem à direita)
@@ -40,7 +40,7 @@ int escape_char(TREE *tree, unsigned char c);
 *   @param: árvore binária
 * 	@return: tamanho da árvore
 **/
-short tree_size(TREE *tree);
+unsigned short tree_size(TREE *tree);
 
 
 /**
@@ -90,6 +90,11 @@ TREE *read_pre_order_tree(TREE *tree, FILE *input, int *tree_size);
 *   @param: arquivo de saída da árvore
 **/
 void write_pre_order_tree(TREE *tree, FILE *output);
+
+
+void print_tree_node(TREE *t);
+void print_tree_pre_order(TREE *t);
+void print_tree_pre_order_char(TREE *t);
 
 
 #endif //HUFFMAN_HUFF_TREE_H
