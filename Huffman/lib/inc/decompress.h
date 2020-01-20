@@ -14,7 +14,7 @@ short get_tree_size(FILE *input);
 
 TREE* get_hufftree(FILE *input, TREE* tree);
 
-void decompress_file(FILE* input, FILE* output, TREE* tree, short trash_size);
+void decompress_file(FILE* input, FILE* output, TREE* tree, short trash_size, short size_tree);
 
 void decompress(char input_path[], char output_path[]);
 
