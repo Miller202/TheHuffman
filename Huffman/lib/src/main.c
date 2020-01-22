@@ -7,8 +7,8 @@
 
 int main()
 {
-//    open_files("../../../Testes/test.txt");
-    decompress("../../../Testes/test.txt.huff", "../../../Testes/test2.txt");
+    open_files("../../../Testes/DECLARACAO.pdf");
+   decompress("../../../Testes/DECLARACAO.pdf.huff", "../../../Testes/DECLARACAO.pdf");
 
     return 0;
 }

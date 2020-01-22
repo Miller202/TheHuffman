@@ -95,7 +95,10 @@ void write_trash(unsigned char trash, FILE *file)
     trash |= c;
 
     rewind(file);
-    fwrite(&trash, 1, 1, file);
+//    fwrite(&trash, 1, 1, file);
+    fprintf(file, "%c", trash);
+
+    rewind(file);
 }
 
 unsigned char write_compress_doc(HASH *paths, FILE *input, FILE *output)
@@ -136,12 +139,17 @@ unsigned char write_compress_doc(HASH *paths, FILE *input, FILE *output)
         }
     }
 
-    if (i == 0)
+//    int trash;
+    if (i == 0){
+//        trash = 0;
         return 0;
+    }
 
     fwrite(&byte, 1, 1, output);
 
     // Retorna o lixo do fim do arquivo
+//    trash = 8 - (i - 1);
+
     return (unsigned char) 8 - (i - 1);
 }
 

@@ -36,6 +36,6 @@ void* get(HASH *ht, int key)
 void print_hash(HASH *ht)
 {
 	for (int i = 0; i < MAX_HASH_ADDRESS_SIZE; ++i) {
-		printf("%d: %s\n", i, get(ht, i));
+		printf("%d: %s %c\n", i, get(ht, i), i);
 	}
 }
