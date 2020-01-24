@@ -22,12 +22,9 @@ HASH *create_hash();
 **/
 void put(HASH *new_hash, int key, char *representation);
 
-
 /**
- *
  *	@param: a tabela hash onde irá realizar-se a busca e a key
  *	@return: os dados do item que tem a key igual à passada como argumento
- *
 **/
 void* get(HASH *ht, int key);
 

@@ -50,21 +50,16 @@ TREE* get_hufftree(FILE* input, TREE* tree)
 	return tree;
 }
 
-void decompress_file(FILE* input, FILE* output, TREE* tree, int trash_size, short size_tree)
+void decompress_file(FILE* input, FILE* output, TREE* tree, int trash_size)
 {
 	TREE* new_tree = tree;
 
-	int i, is_EOF = 0, bytes = 0, in;
-	unsigned char c, aux;
-
+	int i, is_EOF = 0;
     unsigned char c_1, c_2;
 
     fscanf(input, "%c", &c_1);
 	while(fscanf(input, "%c", &c_2) != EOF)
 	{
-//	    in = ftell(input);
-//        is_EOF = fscanf(input, "%c", &aux);
-//        fseek(input, in, SEEK_SET);
 		for(i = 7; i >= 0; i--)
 		{
 			if(is_bit_set(c_1, i))
@@ -79,7 +74,6 @@ void decompress_file(FILE* input, FILE* output, TREE* tree, int trash_size, shor
             {
 			    printf("%c", new_tree->c);
                 fprintf(output, "%c", new_tree->c);
-//                fwrite(&new_tree->c, 1, 1, output);
                 new_tree = tree;
             }
 
@@ -87,15 +81,10 @@ void decompress_file(FILE* input, FILE* output, TREE* tree, int trash_size, shor
             {
                 break;
             }
-
-            //c_1 = c_2;
 		}
 
         c_1 = c_2;
-
-        //bytes++;
 	}
-
 
     for(i = 7; i >= trash_size; i--)
     {
@@ -118,25 +107,18 @@ void decompress_file(FILE* input, FILE* output, TREE* tree, int trash_size, shor
 
 void decompress(char input_path[], char output_path[])
 {
-	FILE* input = fopen(input_path, "rb");;
-	FILE* output = fopen(output_path, "w+b");;
-
-//	input = fopen(input_path, "rb");
-
-//	output = fopen(output_path, "w+b");
+	FILE* input = fopen(input_path, "rb");
+	FILE* output = fopen(output_path, "w+b");
 
 	int trash_size = get_trash_size(input);
 	rewind(input);
 	short  tree_size = get_tree_size(input);
 
-//	unsigned char byte;
-//    fscanf(input, "%c", &byte);
-
 	TREE* tree = create_node('*', 0, NULL, NULL);
 
 	tree = get_hufftree(input, tree);
 
-	decompress_file(input, output, tree, trash_size, tree_size);
+	decompress_file(input, output, tree, trash_size);
 
 	fclose(input);
 	fclose(output);

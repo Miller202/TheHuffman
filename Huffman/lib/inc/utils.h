@@ -19,8 +19,11 @@ void create_priority_queue(long long int *frequency, HEAP *heap);
 **/
 long long int *frequency_counter(FILE *file);
 
+/**
+* 	@param: recebe o ponteiro do arquivo de entrada
+*	@return: constrói o heap
+**/
 HEAP *mount_heap(FILE *file);
-
 
 void print_tree_node_heap(void *tree);
 
