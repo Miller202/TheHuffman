@@ -195,7 +195,7 @@ void write_pre_order_tree(TREE *tree, FILE *output)
     // Se a folha tem um char especial, então escrevemos o caracter de escape
 	if (escape_char(tree, tree->c))
 	{
-		fprintf(output, "%c", "\\");
+		fprintf(output, "%c", '\\');
 	}
 
 	fwrite(&tree->c, 1, 1, output);
