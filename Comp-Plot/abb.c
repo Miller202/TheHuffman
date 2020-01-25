@@ -1,6 +1,6 @@
 #include "abb.h"
 
-bst* create_empty_bst()
+bs_tree* create_empty_bst()
 {
 	return NULL;
 }
@@ -34,17 +34,25 @@ bs_tree* add_bst(bs_tree *bst, int item)
 	}
 }
 
-bs_tree* search_bst(bs_tree *bst, int item)
+int search_bst(bs_tree *bst, int item, int *comp_bt)
 {
-	if(bst == NULL || bst->item == item) // se a arvore é nula ou o item atual é o que deseja, retorna a abb;
+	*comp_bt += 1;
+
+	if(bst == NULL) // se a arvore é nula retorna 0;
 	{
-		return bst;
+		return 0;
 	}
-	else if(item < bst->item) // se o item é menor que o item atual, procure no filho da esquerda;
-	{
-		search(bst->left, item);
-	}
-    else{	// se o item é maior que o item atual, procure no filho da direita.
-		search(bst->right, item);
+	else{
+		if(bst->item == item) // se o item atual é o que deseja, retorna 1
+		{
+			return 1;
+		}
+		else if(item < bst->item) // se o item é menor que o item atual, procure no filho da esquerda;
+		{
+			search_bst(bst->left, item, comp_bt);
+		}
+		else{	// se o item é maior que o item atual, procure no filho da direita.
+			search_bst(bst->right, item, comp_bt);
+		}
 	}
 }

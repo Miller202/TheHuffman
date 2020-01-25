@@ -15,7 +15,7 @@ node* create_node_list(int item)
 
 node* add_list(node *head, int item)
 {
-	node *new_node = create_node(item); // cria o novo nó;
+	node *new_node = create_node_list(item); // cria o novo nó;
 	node *aux = head; // // aux aponta para head para nao perder o ponteiro da cabeça
 
 	if(head == NULL) // quando a lista for nula, retorna o novo nó;
@@ -32,15 +32,17 @@ node* add_list(node *head, int item)
 	return head;
 }
 
-int search_list(node *head, int item)
+int search_list(node *head, int item, int *comp_list)
 {
+    *comp_list += 1;
+
 	if (head != NULL)
 	{
 		if (head->item == item)
 		{
-			return head; // item encontrado
+			return 1; // item encontrado
 		}
-		return search_list(head->next, item); // chama o proximo
+		return search_list(head->next, item, comp_list); // chama o proximo
 	}
-	return NULL; // item nao encontrado
+	return 0; // item nao encontrado
 }
