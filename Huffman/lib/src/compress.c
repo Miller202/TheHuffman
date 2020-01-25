@@ -140,7 +140,7 @@ unsigned char write_compress_doc(HASH *paths, FILE *input, FILE *output)
     }
 
 //    int trash;
-    if (i == 0){
+    if (bt_cont == 7){
 //        trash = 0;
         return 0;
     }
@@ -150,7 +150,7 @@ unsigned char write_compress_doc(HASH *paths, FILE *input, FILE *output)
     // Retorna o lixo do fim do arquivo
 //    trash = 8 - (i - 1);
 
-    return (unsigned char) 8 - (i - 1);
+    return (unsigned char) 8 - (bt_cont + 1);
 }
 
 // TODO: Essa função poderia ficar em outro arquivo
