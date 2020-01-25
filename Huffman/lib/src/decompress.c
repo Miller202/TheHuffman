@@ -72,7 +72,7 @@ void decompress_file(FILE* input, FILE* output, TREE* tree, int trash_size)
 
 			if (is_leaf(new_tree))
             {
-			    printf("%c", new_tree->c);
+			    //printf("%c", new_tree->c);
                 fprintf(output, "%c", new_tree->c);
                 new_tree = tree;
             }
