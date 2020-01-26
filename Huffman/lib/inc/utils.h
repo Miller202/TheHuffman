@@ -25,6 +25,14 @@ long long int *frequency_counter(FILE *file);
 **/
 HEAP *mount_heap(FILE *file);
 
+/**
+*   Concatena 2 arrays de char
+*   @param: prefixo
+*   @param: sufixo
+*   @return: array concatenado
+**/
+char* concat(char *s1, char *s2);
+
 void print_tree_node_heap(void *tree);
 
 #endif //HUFFMAN_UTILS_H

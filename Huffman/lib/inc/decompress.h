@@ -8,7 +8,7 @@
 
 /**
 * 	@param: recebe o caracter e a posição do bit
-*	@return: Verifica se o bit de um caractere está definido
+*	@return: Verifica se o bit do caractere está definido
 **/
 int is_bit_set(unsigned char c, int i);
 

@@ -1,5 +1,6 @@
 #include "utils.h"
 
+#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "heap.h"
@@ -35,6 +36,16 @@ HEAP *mount_heap(FILE *file)
     create_priority_queue(frequency, heap);
 
     return heap;
+}
+
+char* concat(char *s1, char *s2)
+{
+    char *result = malloc(strlen(s1) + strlen(s2) + 1);
+
+    strcpy(result, s1);
+    strcat(result, s2);
+
+    return result;
 }
 
 void print_tree_node_heap(void *tree)

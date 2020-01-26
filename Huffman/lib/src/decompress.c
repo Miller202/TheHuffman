@@ -15,20 +15,20 @@ int get_trash_size(FILE *input)
 	int trash_size = 0;
 	unsigned char byte;
 	fscanf(input, "%c", &byte);
-	trash_size = byte >> 5;
+	trash_size = byte >> 5;     //retira os 5 bits do tree size
 	return trash_size;
 }
 
 short get_tree_size(FILE *input)
 {
-	short tree_size = 0;
+	short tree_size = 0;        //2 bytes
 	unsigned char byte;
 	fscanf(input, "%c", &byte);
 	byte <<= 3;
-	byte >>= 3;
-	tree_size = byte << 8;
+	byte >>= 3;                 //retira os 3 bits do trash size
+	tree_size = byte << 8;      //coloca o byte lido do arquivo no 1o byte da tree_size
 	fscanf(input, "%c", &byte);
-	tree_size = tree_size | byte;
+	tree_size = tree_size | byte;   //junta o 2o byte da tree_size com o 2o byte lido
 	return tree_size;
 }
 
@@ -42,9 +42,10 @@ TREE* get_hufftree(FILE* input, TREE* tree)
 		tree->left = get_hufftree(input, tree->left);
 		tree->right = get_hufftree(input, tree->right);
 	}
-	else if(c=='\\'){
+	else if(c=='\\'){   //se for um caracter de escape
 		fscanf(input, "%c",&c);
-		tree = create_node(c, 0, NULL, NULL);
+//		tree = create_node(c, 0, NULL, NULL);
+        tree->c = c;
 	}
 
 	return tree;
@@ -54,7 +55,7 @@ void decompress_file(FILE* input, FILE* output, TREE* tree, int trash_size)
 {
 	TREE* new_tree = tree;
 
-	int i, is_EOF = 0;
+	int i;
     unsigned char c_1, c_2;
 
     fscanf(input, "%c", &c_1);
@@ -62,7 +63,7 @@ void decompress_file(FILE* input, FILE* output, TREE* tree, int trash_size)
 	{
 		for(i = 7; i >= 0; i--)
 		{
-			if(is_bit_set(c_1, i))
+			if(is_bit_set(c_1, i)) //se o bit da posi??o atual ? 1, ent?o ir para a direita na ?rvore
 			{
 				new_tree = new_tree->right;
 			}
@@ -76,17 +77,12 @@ void decompress_file(FILE* input, FILE* output, TREE* tree, int trash_size)
                 fprintf(output, "%c", new_tree->c);
                 new_tree = tree;
             }
-
-            if(is_EOF && i < trash_size)
-            {
-                break;
-            }
 		}
 
         c_1 = c_2;
 	}
 
-    for(i = 7; i >= trash_size; i--)
+    for(i = 7; i >= trash_size; i--)    //loop para o ?ltimo byte
     {
         if(is_bit_set(c_1, i))
         {
