@@ -10,6 +10,7 @@
 TREE *create_node(unsigned char character, long long int frequency, TREE *left, TREE *right)
 {
 	TREE *new_node = (TREE*)malloc(sizeof(TREE));
+	check_malloc(new_node);
 
 	new_node->c = character;
 	new_node->frequency = frequency;
@@ -119,6 +120,8 @@ void map_paths(TREE *tree, HASH *hash, char *path, int i)
             path[i] = '\0';
 
             char *finish_path = (char *) malloc(sizeof(char) * (strlen(path) + 1));
+            check_malloc(finish_path);
+
             strcpy(finish_path, path);
 
             // Adiciona o caminho no hash

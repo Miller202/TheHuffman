@@ -31,7 +31,7 @@ void compress_file(FILE *input, FILE *output)
 
     write_tree_size(huff_tree, output);
 
-//    free_tree(huff_tree);
+    free_tree(huff_tree);
 
 //    print_tree_pre_order_char(huff_tree);
 //    printf("\n");
@@ -41,24 +41,19 @@ void compress_file(FILE *input, FILE *output)
     write_trash(trash, output);
 
     //TODO free_hash(paths);
+
+    free(input);
+    free(output);
 }
 
 void open_files (char *input_name)
 {
     FILE *input = fopen(input_name, "rb");
-    if (input == NULL)
-    {
-        printf("Erro ao abrir tentar arquivo!");
-        exit(1);
-    }
+    check_malloc(input);
     
     char *output_name = concat(input_name, ".huff");
     FILE *output = fopen(output_name, "w+b");
-    if (output == NULL)
-    {
-        printf("Erro de Memória!");
-        exit(1);
-    }
+    check_malloc(output);
 
     compress_file(input, output);
 }
@@ -72,7 +67,6 @@ void write_tree_size(TREE *tree, FILE *file)
 
     if (tree_sz > 255)      //se são necessários 2 bytes para escrever a árvore no arquivo
     {
-
         unsigned short bytes = tree_sz << 8;
         bytes |= tree_sz >> 8;
         fwrite(&bytes, size_short, 1, file);

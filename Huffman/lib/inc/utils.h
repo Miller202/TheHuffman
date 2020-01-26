@@ -26,6 +26,12 @@ long long int *frequency_counter(FILE *file);
 HEAP *mount_heap(FILE *file);
 
 /**
+*   Verifica se a alocação de memória foi feita de forma correta
+*   @param: ponteiro para o espaço de memória alocado
+**/
+void check_malloc(void *mem);
+
+/**
 *   Concatena 2 arrays de char
 *   @param: prefixo
 *   @param: sufixo
