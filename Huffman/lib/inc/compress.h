@@ -1,7 +1,7 @@
 #ifndef HUFFMAN_COMPRESS_H
 #define HUFFMAN_COMPRESS_H
 
-#include "heap.h"
+
 #include "hash.h"
 #include "huff_tree.h"
 
@@ -19,13 +19,6 @@ unsigned char set_bit(unsigned char c, int i);
 *   @param: arquivo onde será escrita a compactação
 **/
 void compress_file(FILE *input, FILE *output);
-
-/**
-*   Abre o arquivo a ser comprimido e o arquivo em que será escrita a compactação
-*   @param: diretório do arquivo a ser comprimido
-*   @param: arquivo onde será escrita a compactação
-**/
-void open_files (char *input_name);
 
 /**
 *   Escreve o tamanho de árvore binária em um arquivo

@@ -1,9 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 #include "../inc/decompress.h"
-#include "utils.h"
 
 int is_bit_set(unsigned char c, int i)
 {
@@ -101,14 +99,8 @@ void decompress_file(FILE* input, FILE* output, TREE* tree, int trash_size)
     }
 }
 
-void decompress(char *input_path, char *output_path)
+void decompress(FILE *input, FILE *output)
 {
-	FILE* input = fopen(input_path, "rb");
-	check_malloc(input);
-
-	FILE* output = fopen(output_path, "w+b");
-    check_malloc(output);
-
 	int trash_size = get_trash_size(input);
 	rewind(input);
 	short tree_size = get_tree_size(input);

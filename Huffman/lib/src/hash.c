@@ -2,12 +2,11 @@
 #include <stdlib.h>
 
 #include "hash.h"
-#include "utils.h"
 
 HASH *create_hash()
 {
 	HASH *new_hash = malloc(sizeof(HASH));
-    check_malloc(new_hash);
+//    // check_malloc(new_hash);
 
 	int i;
 	for(i = 0; i < MAX_HASH_ADDRESS_SIZE; i++)

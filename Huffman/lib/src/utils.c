@@ -13,14 +13,14 @@ void create_priority_queue(long long int frequency[], HEAP *heap) {
             enqueue(heap, frequency[i], create_node((unsigned char) i, frequency[i], NULL, NULL));
         }
     }
-    print_heap(heap, print_tree_node_heap);
-    printf("\n");
+//    print_heap(heap, print_tree_node_heap);
+//    printf("\n");
 }
 
 long long int *frequency_counter(FILE *file) {
 
     long long int *frequency = calloc(256, sizeof(long long int));
-    check_malloc(frequency);
+    // check_malloc(frequency);
 
     unsigned char item;
 
@@ -40,7 +40,7 @@ HEAP *mount_heap(FILE *file)
     return heap;
 }
 
-void check_malloc(void *mem)
+void  check_malloc(void *mem)
 {
     if (mem == NULL)
     {
@@ -52,7 +52,7 @@ void check_malloc(void *mem)
 char* concat(char *s1, char *s2)
 {
     char *result = malloc(strlen(s1) + strlen(s2) + 1);
-    check_malloc(result);
+    // check_malloc(result);
 
     strcpy(result, s1);
     strcat(result, s2);
