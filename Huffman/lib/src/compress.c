@@ -66,10 +66,16 @@ void open_files (char *input_name)
 void write_tree_size(TREE *tree, FILE *file)
 {
     unsigned short tree_sz = tree_size(tree);
+    int size_short = sizeof(short);
+
+//    printf("tree %d", tree_sz);
 
     if (tree_sz > 255)      //se são necessários 2 bytes para escrever a árvore no arquivo
     {
-        fwrite(&tree_sz, 2, 1, file);
+
+        unsigned short bytes = tree_sz << 8;
+        bytes |= tree_sz >> 8;
+        fwrite(&bytes, size_short, 1, file);
     }
     else
     {
