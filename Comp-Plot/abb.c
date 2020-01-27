@@ -23,15 +23,15 @@ bs_tree* add_bst(bs_tree *bst, int item)
 
 	if(item < bst->item) // se o item for menor que o atual, vai para o filho da esquerda;
 	{
-		add_bst(bst->left, item);
+		bst->left = add_bst(bst->left, item);
 	}
 	else if(item > bst->item) // se o item for maior que o atual, vai para o filho da direita;
 	{
-		add_bst(bst->right, item);
+		bst->right = add_bst(bst->right, item);
 	}
-	else{ // se for igual, o item estará na posição correta, então retorna a árvore.		
-		return bst;
-	}
+
+	// se for igual, o item estará na posição correta, então retorna a árvore.
+    return bst;
 }
 
 int search_bst(bs_tree *bst, int item, int *comp_bt)
@@ -55,4 +55,19 @@ int search_bst(bs_tree *bst, int item, int *comp_bt)
 			search_bst(bst->right, item, comp_bt);
 		}
 	}
+}
+
+int is_empty(bs_tree *root)
+{
+    return (root == NULL);
+}
+
+void print_pre_order(bs_tree *root)
+{
+    if(!is_empty(root))
+    {
+        printf("%d\n", root->item);
+        print_pre_order(root->left);
+        print_pre_order(root->right);
+    }
 }

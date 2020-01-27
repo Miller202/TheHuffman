@@ -4,12 +4,12 @@
 
 #include "huff_tree.h"
 #include "heap.h"
-#include "utils.h"
 
 
 TREE *create_node(unsigned char character, long long int frequency, TREE *left, TREE *right)
 {
 	TREE *new_node = (TREE*)malloc(sizeof(TREE));
+	// check_malloc(new_node);
 
 	new_node->c = character;
 	new_node->frequency = frequency;
@@ -76,17 +76,18 @@ TREE *create_huffman_tree(HEAP *heap)
     // Enquanto restar mais de 1 árvore na heap
 	while (heap->size > 1)
 	{
-	    printf("dequeue: ");
+//	    printf("dequeue: ");
 
         // Pega as 2 árvores de menor frequência
 		TREE *left_child_tree = dequeue(heap);
 
-        print_tree_pre_order(left_child_tree);
-        printf(" | ");
+//        print_tree_pre_order(left_child_tree);
+//        printf(" | ");
 
 		TREE *right_child_tree = dequeue(heap);
-        print_tree_pre_order(right_child_tree);
-        printf("\n");
+
+//		print_tree_pre_order(right_child_tree);
+//        printf("\n");
 
         // Cria uma nova árvore, com a frequência igual a das 2 árvores de menor frequência
         TREE *parent_tree = create_node('*', 0, left_child_tree, right_child_tree);
@@ -95,14 +96,16 @@ TREE *create_huffman_tree(HEAP *heap)
         // Adiciona a nova árvore à heap
 		enqueue(heap, parent_tree->frequency, parent_tree);
 
-		printf("heap: ");
-        print_heap(heap, print_tree_node_heap);
-        printf("\n\n");
+//		printf("heap: ");
+//        print_heap(heap, print_tree_node_heap);
+//        printf("\n\n");
 	}
 
-    printf("\n");
+//    printf("\n");
+
 	TREE *t = dequeue(heap);
-    print_tree_pre_order(t);
+
+//    print_tree_pre_order(t);
 
     // Retorna a raiz da árvore
 	return t;
@@ -119,6 +122,8 @@ void map_paths(TREE *tree, HASH *hash, char *path, int i)
             path[i] = '\0';
 
             char *finish_path = (char *) malloc(sizeof(char) * (strlen(path) + 1));
+            // check_malloc(finish_path);
+
             strcpy(finish_path, path);
 
             // Adiciona o caminho no hash

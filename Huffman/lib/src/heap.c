@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "heap.h"
+#include "utils.h"
 
 typedef struct _node {
     lli priority;
@@ -12,6 +13,7 @@ typedef struct _node {
 _node* _create_node(lli priority, void *data)
 {
     _node *new_node = (_node *) malloc(sizeof(_node));
+    // check_malloc(new_node);
 
     new_node->priority = priority;
     new_node->data = data;
@@ -22,6 +24,7 @@ _node* _create_node(lli priority, void *data)
 HEAP *create_heap()
 {
     HEAP *heap = (HEAP *) malloc(sizeof(HEAP));
+    // check_malloc(heap);
 
     heap->size = 0;
 

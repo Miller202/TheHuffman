@@ -8,7 +8,7 @@
 
 /**
 * 	@param: recebe o caracter e a posição do bit
-*	@return: Verifica se o bit de um caractere está definido
+*	@return: Verifica se o bit do caractere está definido
 **/
 int is_bit_set(unsigned char c, int i);
 
@@ -41,10 +41,10 @@ TREE* get_hufftree(FILE *input, TREE* tree);
 void decompress_file(FILE* input, FILE* output, TREE* tree, int trash_size);
 
 /**
-* 	@param: recebe o caminho do arquivo de entrada
-*   @param: recebe o caminho do arquivo de saída
-*	@return: Retorna o arquivo descompactado
+* 	@param: recebe o ponteiro do arquivo de entrada
+*   @param: recebe o ponteiro do arquivo de saída
+*	@return: Realiza a decompactação do arquivo
 **/
-void decompress(char input_path[], char output_path[]);
+void decompress(FILE *input, FILE *output);
 
 #endif //HUFFMAN_DECOMPRESS_H

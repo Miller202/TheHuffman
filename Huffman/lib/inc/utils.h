@@ -25,6 +25,20 @@ long long int *frequency_counter(FILE *file);
 **/
 HEAP *mount_heap(FILE *file);
 
+/**
+*   Verifica se a alocação de memória foi feita de forma correta
+*   @param: ponteiro para o espaço de memória alocado
+**/
+//void  // check_malloc(void *mem);    //TODO ENCONTRAR ALGUM ARQUIVO PRA COLOCAR
+
+/**
+*   Concatena 2 arrays de char
+*   @param: prefixo
+*   @param: sufixo
+*   @return: array concatenado
+**/
+char* concat(char *s1, char *s2);
+
 void print_tree_node_heap(void *tree);
 
 #endif //HUFFMAN_UTILS_H
