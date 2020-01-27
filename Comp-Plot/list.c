@@ -15,21 +15,11 @@ node* create_node_list(int item)
 
 node* add_list(node *head, int item)
 {
-	node *new_node = create_node_list(item); // cria o novo nó;
-	node *aux = head; // // aux aponta para head para nao perder o ponteiro da cabeça
+	node *new_node = create_node_list(item); // cria o novo nó;node *new_node = (node*) malloc(sizeof(node));
 
-	if(head == NULL) // quando a lista for nula, retorna o novo nó;
-	{
-		return new_node;
-	}
+    new_node->next = head;
 
-	while(aux->next != NULL) // enquanto nao for o ultimo item, chama o proximo.
-	{
-		aux = aux->next;
-	}
-
-	aux->next = new_node;
-	return head;
+    return new_node;
 }
 
 int search_list(node *head, int item, int *comp_list)
@@ -45,4 +35,14 @@ int search_list(node *head, int item, int *comp_list)
 		return search_list(head->next, item, comp_list); // chama o proximo
 	}
 	return 0; // item nao encontrado
+}
+
+void print_linked_list(node *head) // imprime a lista
+{
+    if (head == NULL) // imprimir enquanto a lista nao acabar
+    {
+        return;
+    }
+    printf("%d\n", head->item);
+    print_linked_list(head->next); // recursao para chamar o proximo head
 }
