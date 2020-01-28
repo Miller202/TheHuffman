@@ -40,9 +40,6 @@ void compress_file(FILE *input, FILE *output)
 
     free_tree(huff_tree);
     //TODO free_hash(paths);
-
-    free(input);
-    free(output);
 }
 
 void write_tree_size(TREE *tree, FILE *file)

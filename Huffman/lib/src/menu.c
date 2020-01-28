@@ -6,6 +6,8 @@
 #include "decompress.h"
 #include "menu.h"
 
+#define FILE_PATH "../../../Testes/"
+
 void menu_loop ()
 {
     int choice;
@@ -19,14 +21,14 @@ void menu_loop ()
         {
             case 1:
                 compress_option();
-                printf("Successful compress\n");
+                printf("Successful compress!\n");
                 break;
             case 2:
                 decompress_option();
-                printf("Successful decompress\n");
+                printf("Successful decompress!\n");
                 break;
             case 3:
-                printf("Bye\n");
+                printf("Bye!\n");
                 exit(0);
                 break;
             default:
@@ -51,7 +53,7 @@ void compress_option()
     scanf("%s", name);
     getchar();
 
-    open_files_compress(name);
+    open_files_compress(concat(FILE_PATH, name));
 }
 void decompress_option()
 {
@@ -64,7 +66,7 @@ void decompress_option()
     scanf("%s", decomp_name);
     getchar();
 
-    open_files_decompress(comp_name, decomp_name);
+    open_files_decompress(concat(FILE_PATH, comp_name), concat(FILE_PATH, decomp_name));
 }
 
 void open_files_compress (char *input_name)
@@ -77,6 +79,11 @@ void open_files_compress (char *input_name)
     // check_malloc(output);
 
     compress_file(input, output);
+
+    fclose(output);
+
+    free(input);
+    free(output);
 }
 
 void open_files_decompress (char *compressed_name, char *decompressed_name)
@@ -88,4 +95,9 @@ void open_files_decompress (char *compressed_name, char *decompressed_name)
     // check_malloc(output);
 
     decompress(input, output);
+
+    fclose(output);
+
+    free(input);
+    free(output);
 }

@@ -112,7 +112,4 @@ void decompress(FILE *input, FILE *output)
 	decompress_file(input, output, tree, trash_size);
 
 	free_tree(tree);
-
-	fclose(input);
-	fclose(output);
 }
