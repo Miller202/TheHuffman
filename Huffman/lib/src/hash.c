@@ -1,12 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <utils.h>
 
 #include "hash.h"
 
 HASH *create_hash()
 {
 	HASH *new_hash = malloc(sizeof(HASH));
-//    // check_malloc(new_hash);
+    check_malloc(new_hash);
 
 	int i;
 	for(i = 0; i < MAX_HASH_ADDRESS_SIZE; i++)
@@ -27,9 +28,13 @@ void* get(HASH *ht, int key)
     return ht->table[key % MAX_HASH_ADDRESS_SIZE];
 }
 
-void print_hash(HASH *ht)
+void free_hash(HASH *ht)
 {
-	for (int i = 0; i < MAX_HASH_ADDRESS_SIZE; ++i) {
-		printf("%d: %s %c\n", i, get(ht, i), i);
-	}
+    for (int i = 0; i < MAX_HASH_ADDRESS_SIZE; ++i)
+    {
+        free(ht->table[i]);
+    }
+
+    free(ht->table);
+    free(ht);
 }

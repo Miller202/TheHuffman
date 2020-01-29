@@ -29,7 +29,7 @@ HEAP *mount_heap(FILE *file);
 *   Verifica se a alocação de memória foi feita de forma correta
 *   @param: ponteiro para o espaço de memória alocado
 **/
-//void  // check_malloc(void *mem);    //TODO ENCONTRAR ALGUM ARQUIVO PRA COLOCAR
+void check_malloc(void *mem);    //TODO ENCONTRAR ALGUM ARQUIVO PRA COLOCAR
 
 /**
 *   Concatena 2 arrays de char

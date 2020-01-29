@@ -72,11 +72,11 @@ void decompress_option()
 void open_files_compress (char *input_name)
 {
     FILE *input = fopen(input_name, "rb");
-    // check_malloc(input);
+    check_malloc(input);
 
     char *output_name = concat(input_name, ".huff");
     FILE *output = fopen(output_name, "w+b");
-    // check_malloc(output);
+    check_malloc(output);
 
     compress_file(input, output);
 
@@ -89,10 +89,10 @@ void open_files_compress (char *input_name)
 void open_files_decompress (char *compressed_name, char *decompressed_name)
 {
     FILE *input = fopen(compressed_name, "rb");
-    // check_malloc(input);
+    check_malloc(input);
 
     FILE *output = fopen(decompressed_name, "w+b");
-    // check_malloc(output);
+    check_malloc(output);
 
     decompress(input, output);
 

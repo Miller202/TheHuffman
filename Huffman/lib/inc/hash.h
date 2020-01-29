@@ -23,11 +23,19 @@ HASH *create_hash();
 void put(HASH *new_hash, int key, char *representation);
 
 /**
- *	@param: a tabela hash onde irá realizar-se a busca e a key
- *	@return: os dados do item que tem a key igual à passada como argumento
+ *  Obtém o item da hash table de acordo com a key
+ *
+ *  @param: *ht o ponteiro para hash table
+ *  @param: key a key da hash table
+ *  @return: os dados do item da hash table que tem a key igual à passada como argumento
 **/
 void* get(HASH *ht, int key);
 
-void print_hash(HASH *ht);
+/* *
+ *  Desaloca a hash table da memória
+ *
+ *  @param: Recebe a hash table a ser destruída
+ * */
+void free_hash(HASH *ht);
 
 #endif //HUFFMAN_HASH_H

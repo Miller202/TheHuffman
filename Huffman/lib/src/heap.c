@@ -13,7 +13,7 @@ typedef struct _node {
 _node* _create_node(lli priority, void *data)
 {
     _node *new_node = (_node *) malloc(sizeof(_node));
-    // check_malloc(new_node);
+    check_malloc(new_node);
 
     new_node->priority = priority;
     new_node->data = data;
@@ -24,7 +24,7 @@ _node* _create_node(lli priority, void *data)
 HEAP *create_heap()
 {
     HEAP *heap = (HEAP *) malloc(sizeof(HEAP));
-    // check_malloc(heap);
+    check_malloc(heap);
 
     heap->size = 0;
 
@@ -157,7 +157,6 @@ void *dequeue(HEAP *heap)
     }
 }
 
-
 void print_heap(HEAP *heap, void (*print_func)(void *data))
 {
     for (int i = 1; i <= heap->size; ++i)
@@ -166,3 +165,4 @@ void print_heap(HEAP *heap, void (*print_func)(void *data))
         printf(" ");
     }
 }
+
