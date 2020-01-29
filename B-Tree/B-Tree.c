@@ -101,5 +101,28 @@ void* insert_btree(btree *btree, void *key, void *value)
     return temp;
 }
 
+void* search_btree(btree *btree, void *key)
+{
+	btree_page *page = btree->top;
+
+	while (page!=0) {//Percorre pages
+		size_t left = 0, right = page->size;
+		while (left < right) { //Percorre as chaves da page
+			size_t middle = (left + right) / 2;
+			int cmp = btree->cmp(key, page->items[middle].key);
+			if (cmp == 0)
+				return page->items[middle].value;			
+			else if(cmp > 0)//Key é maior que a key à esquerda
+				left = middle + 1;
+            else
+                right = middle;//Key é menor que a key à direita
+            
+		}
+		page = page->items[left].child;
+	}
+	return NULL;
+}
+
+
 
 

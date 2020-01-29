@@ -3,7 +3,7 @@
 
 #define M 5; // ordem da árvore
 
-/* O cmp serve para comparar duas keys, retorna 0 se forem iguais, 1 para diferentes*/
+/* O cmp serve para comparar duas keys, retorna 0 se forem iguais*/
 typedef int (*cmp_t)(void *key_1, void *key_2);
 
 typedef struct btree_item{
