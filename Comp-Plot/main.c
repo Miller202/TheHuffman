@@ -39,35 +39,60 @@ int main()
 
 	int value = 0;
 
-	while (1)
-	{
-        printf("Digite um numero entre (1 - 10000) para ser buscado: \n");
-		scanf("%d", &value);
+	int i;
+    for (i = 0; i < 20000; i+= 10)
+    {
 
-		if (value == -1)
-		{
-		    break;
-		}
-
-		int n_list = search_list(list, value, &comp_list);
-		int n_bt = search_bst(bt, value, &comp_bt);
-
-        fprintf(out, "%d %d %d\n", value, comp_list, comp_bt);
+        int n_list = search_list(list, i, &comp_list);
+        int n_bt = search_bst(bt, i, &comp_bt);
 
         if(n_list != 0 && n_bt != 0)
-		{
-			printf("%d foi encontrado\n", value);
-		}
-		else{
-			printf("%d nao foi encontrado\n", value);
-		}
+        {
+            printf("%d foi encontrado\n", i);
+            fprintf(out, "%d %d %d\n", i, comp_list, comp_bt);
 
-		printf("Quantidade de comparacoes na Lista: %d\n", comp_list);
-		printf("Quantidade de comparacoes na ABB: %d\n", comp_bt);
 
-		comp_list = 0;
-		comp_bt = 0;
-	}
+        }
+        else{
+            printf("%d nao foi encontrado\n", i);
+        }
+
+        printf("Quantidade de comparacoes na Lista: %d\n", comp_list);
+        printf("Quantidade de comparacoes na ABB: %d\n", comp_bt);
+
+        comp_list = 0;
+        comp_bt = 0;
+    }
+
+//	while (1)
+//	{
+//        printf("Digite um numero entre (1 - 10000) para ser buscado: \n");
+//		scanf("%d", &value);
+//
+//		if (value == -1)
+//		{
+//		    break;
+//		}
+//
+//		int n_list = search_list(list, value, &comp_list);
+//		int n_bt = search_bst(bt, value, &comp_bt);
+//
+//        fprintf(out, "%d %d %d\n", value, comp_list, comp_bt);
+//
+//        if(n_list != 0 && n_bt != 0)
+//		{
+//			printf("%d foi encontrado\n", value);
+//		}
+//		else{
+//			printf("%d nao foi encontrado\n", value);
+//		}
+//
+//		printf("Quantidade de comparacoes na Lista: %d\n", comp_list);
+//		printf("Quantidade de comparacoes na ABB: %d\n", comp_bt);
+//
+//		comp_list = 0;
+//		comp_bt = 0;
+//	}
 
     fclose(out);
 }
