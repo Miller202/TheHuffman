@@ -7,35 +7,37 @@
 #include "huff_tree.h"
 
 /**
-* 	Criar uma fila de prioridade(heap), a partir da frequência dos caracteres do arquivo
-* 	@param: recebe um array com a frequencia dos caracteres e um heap
-*	@return: cria nós com caracteres de qualquer frequencia e os enfileira no heap
+ * 	Preenche uma fila de prioridade(heap), a partir de um array de frequência de caracteres
+ * 	@param: *frequency array com a frequência dos caracteres
+ * 	@param: heap heap a ser preenchida
 **/
 void create_priority_queue(long long int *frequency, HEAP *heap);
 
 /**
-* 	@param: recebe o ponteiro do arquivo de entrada
-*	@return: retorna um array com as frequências dos caracteres do arquivo
+ *  retorna a frequência que cada caracter se repete em um arquivo
+ * 	@param: *file
+ *  @return: array com a frequência de cada caracter
 **/
 long long int *frequency_counter(FILE *file);
 
 /**
-* 	@param: recebe o ponteiro do arquivo de entrada
-*	@return: constrói o heap
+ *  Constrói uma heap a partir da frequência dos caracteres de um arquivo
+ *  @param: *file arquivo
+ *  @return: heap construída
 **/
 HEAP *mount_heap(FILE *file);
 
 /**
-*   Verifica se a alocação de memória foi feita de forma correta
-*   @param: ponteiro para o espaço de memória alocado
+ *   Verifica se a alocação de memória foi feita de forma correta
+ *   @param: ponteiro para o espaço de memória alocado
 **/
-void check_malloc(void *mem);    //TODO ENCONTRAR ALGUM ARQUIVO PRA COLOCAR
+void check_malloc(void *mem);
 
 /**
-*   Concatena 2 arrays de char
-*   @param: prefixo
-*   @param: sufixo
-*   @return: array concatenado
+ *  Concatena 2 arrays de char
+ *  @param: *s1 prefixo
+ *  @param: *s2 sufixo
+ *  @return: array concatenado de *s1 e *s2
 **/
 char* concat(char *s1, char *s2);
 
