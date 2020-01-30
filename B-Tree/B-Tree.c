@@ -38,11 +38,11 @@ void* insert_page(btree *btree, btree_page *page, void **key, void **value)
     while(left < right)
     {
         size_t i = (left + right) / 2;
-        int comp = btree->comp_keys(*key, page->items[i].key);
-        if(comp == 0){ // item já existe
+        int cmp = btree->comp_keys(*key, page->items[i].key);
+        if(cmp == 0){ // item já existe
             return page->items[i].value;
         }
-        if(comp > 0){
+        if(cmp > 0){
             left = i + 1;
         }else{
             right = i;
@@ -109,7 +109,7 @@ void* search_btree(btree *btree, void *key)
 		size_t left = 0, right = page->size;
 		while (left < right) { //Percorre as chaves da page
 			size_t middle = (left + right) / 2;
-			int cmp = btree->cmp(key, page->items[middle].key);
+			int cmp = btree->comp_keys(key, page->items[middle].key);
 			if (cmp == 0)
 				return page->items[middle].value;			
 			else if(cmp > 0)//Key é maior que a key à esquerda
