@@ -38,7 +38,7 @@ void compress_file(FILE *input, FILE *output)
     write_pre_order_tree(huff_tree, output);
     unsigned char trash = 0;
     if (is_leaf(huff_tree)){
-        write_one_ascii_char_doc(input, output);
+        trash = write_one_ascii_char_doc(input, output);
     } else {
         trash = write_compress_doc(input, output, paths);
     }
@@ -97,11 +97,13 @@ unsigned char write_one_ascii_char_doc(FILE *input, FILE *output)
         i++;
     }
     if (i == 1) {
+        printf("trash: 0");
         return 0;
     }
 
     fwrite(&byte, 1, 1, output);
 
+    printf("trash: %d", (i - 1));
     return (unsigned char) (i - 1);
 
 }
