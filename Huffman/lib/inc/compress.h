@@ -24,10 +24,10 @@ void compress_file(FILE *input, FILE *output);
 
 /**
  *  Escreve o tamanho de uma árvore binária em um arquivo
- *  @param: *tree árvore binária
- *  @param: *file arquivo onde será escrita o tamanho
+ *  @param: tamanho da árvore binária
+ *  @param: *file arquivo onde será escrito o tamanho
 **/
-void write_tree_size(TREE *tree, FILE *file);
+void write_tree_size(unsigned short size_tree, FILE *file);
 
 /**
  *  Escreve o tamanho do lixo de compressão nos 3 primeiros bits de um arquivo
@@ -35,6 +35,15 @@ void write_tree_size(TREE *tree, FILE *file);
  *  @param: *file arquivo onde será escrito o tamanho
 **/
 void write_trash(unsigned char trash, FILE *file);
+
+/**
+ *  Escreve a mensagem compactada em um arquivo, caso o arquivo original possua apenas 1 tipo de caracter da tabela ascii.
+ *  Cada caracter do arquivo original corresponderá ao bit 0 no arquivo compactado
+ *  @param: *input arquivo com os caracteres originais
+ *  @param: *output arquivo compactado
+ *  @return: quantidade de bits de lixo no byte final do arquivo
+**/
+unsigned char write_one_ascii_char_doc(FILE *input, FILE *output);
 
 /**
  *  Escreve a mensagem compactada em um arquivo, com base no mapeamento recebido e retorna o tamanho do lixo de compactação

@@ -53,7 +53,7 @@ void decompress_file(FILE* input, FILE* output, TREE* tree, int trash_size)
 {
 	TREE* new_tree = tree;
 
-	int i;
+	int i, root_is_leaf = is_leaf(tree);
     unsigned char c_1, c_2;
 
     fscanf(input, "%c", &c_1);
@@ -61,17 +61,19 @@ void decompress_file(FILE* input, FILE* output, TREE* tree, int trash_size)
 	{
 		for(i = 7; i >= 0; i--)
 		{
-			if(is_bit_set(c_1, i)) //se o bit da posi??o atual ? 1, ent?o ir para a direita na ?rvore
-			{
-				new_tree = new_tree->right;
-			}
-			else{
-				new_tree = new_tree->left;
-			}
+		    if (!root_is_leaf)
+            {
+                if(is_bit_set(c_1, i)) //se o bit da posicao atual ? 1, ent?o ir para a direita na ?rvore
+                {
+                    new_tree = new_tree->right;
+                }
+                else{
+                    new_tree = new_tree->left;
+                }
+            }
 
 			if (is_leaf(new_tree))
             {
-			    //printf("%c", new_tree->c);
                 fprintf(output, "%c", new_tree->c);
                 new_tree = tree;
             }
@@ -82,17 +84,20 @@ void decompress_file(FILE* input, FILE* output, TREE* tree, int trash_size)
 
     for(i = 7; i >= trash_size; i--)    //loop para o ?ltimo byte
     {
-        if(is_bit_set(c_1, i))
+        if (!root_is_leaf)
         {
-            new_tree = new_tree->right;
-        }
-        else{
-            new_tree = new_tree->left;
+
+            if(is_bit_set(c_1, i))
+            {
+                new_tree = new_tree->right;
+            }
+            else{
+                new_tree = new_tree->left;
+            }
         }
 
         if(is_leaf(new_tree))
         {
-            printf("%c", new_tree->c);
             fprintf(output, "%c", new_tree->c);
             new_tree = tree;
         }
@@ -104,6 +109,9 @@ void decompress(FILE *input, FILE *output)
 	int trash_size = get_trash_size(input);
 	rewind(input);
 	short tree_size = get_tree_size(input);
+
+    printf("trash size: %d\n", trash_size);
+    printf("tree size: %d\n", tree_size);
 
 	TREE* tree = create_node('*', 0, NULL, NULL);
 
