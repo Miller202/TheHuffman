@@ -123,6 +123,96 @@ void* search_btree(btree *btree, void *key)
 	return NULL;
 }
 
+btree_page *collapse(btree_page *page)
+{
+    btree_page *child = page->items[0].child;
+    free(page);
+    return child;
+}
 
+void get_smallest(btree_page *page, void **key, void **value)
+{
+    btree_page *child = page->items[0].child;
+    if (child == NULL) {
+        remove_page(page, 0, &key, &value);
+        return;
+    }
+    get_smallest(child, key, value);
+    if (child->size == 0)
+        page->items[0].child = collapse(child);
+}
 
+void get_largest(btree_page *page, void **key, void **value)
+{
+    btree_page *child = page->items[page->size].child;
+    if (child == NULL) {
+        remove_page(page, page->size - 1, &key, &value);
+        return;
+    }
+    get_largest(child, key, value);
+    if (child->size == 0)
+        page->items[page->size].child = collapse(child);
+}
 
+void remove_page(btree_page *page, size_t i, void **key, void **value)
+{
+    *key = page->items[i].key;
+    *value = page->items[i].value;
+    btree_page *left_child = page->items[i].child;
+    btree_page *right_child = page->items[i + 1].child;
+
+    if (left_child && right_child) {
+        if (left_child->size > right_child->size) {
+            get_largest(left_child, &key, &value);
+            if (left_child->size == 0)
+                page->items[i].child = collapse(left_child);
+        } else {
+            get_smallest(right_child, &key, &value);
+            if (right_child->size == 0)
+                page->items[i + 1].child = collapse(right_child);
+        }
+        page->items[i].key = key;
+        page->items[i].value = value;
+        return;
+    }
+
+    memmove(&page->items[i], &page->items[i + 1],
+            (page->size - i) * sizeof(btree_item));
+    page->size--;
+
+    if (left_child)
+        page->items[i].child = left_child;
+    else
+        page->items[i].child = right_child;
+}
+
+void *delete_page(btree *btree, btree_page *page, void *key)
+{
+    size_t left = 0, right = page->size, i;
+    while (left < right) {
+        i = (left + right) / 2;
+        int cmp = btree->comp_keys(key, page->items[i].key);
+        if (cmp == 0)
+            break;
+        if (cmp > 0)
+            left = i + 1;
+        else
+            right = i;
+    }
+
+    if (left == right) {
+        /* Ainda não foi encontrado, Recursão: */
+        i = left;
+        btree_page *child = page->items[i].child;
+        if (child == NULL)
+            return NULL;
+        void *temp = delete_page(btree, child, key);
+        if (child->size == 0)
+            page->items[i].child = collapse(child);
+        return temp;
+    }
+
+    void *temp = NULL;
+    remove_page(page, i, &key, &temp);
+    return temp;
+}
