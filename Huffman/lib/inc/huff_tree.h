@@ -4,7 +4,7 @@
 #include "heap.h"
 #include "hash.h"
 
-/* Huffman Tree */
+/** Huffman Tree **/
 typedef struct TREE{
     long long int frequency;
     unsigned char c;
@@ -12,11 +12,9 @@ typedef struct TREE{
     struct TREE *right;
 } TREE;
 
-//Functions
-
 /**
  *	Verifica se a árvore está vazia
- *   @param: *tree árvore binária
+ *  @param: *tree árvore binária
  * 	@return: 1 para verdadeiro e 0 para falso
 **/
 int is_empty(TREE *tree);
@@ -34,15 +32,14 @@ int is_leaf(TREE *tree);
  *  @param: c character
  *  @return: 1 para verdadeiro e 0 para falso
 **/
-int escape_char(TREE *tree, unsigned char c);
+int is_escape_char(TREE *tree, unsigned char c);
 
 /**
  *  retorna o tamanho da árvore
  *  @param: *tree árvore binária
  * 	@return: tamanho da árvore
 **/
-unsigned short tree_size(TREE *tree);
-
+unsigned short get_tree_size(TREE *tree);
 
 /**
  *	Desaloca a árvore binária da memória
@@ -60,7 +57,6 @@ void free_tree(TREE *tree);
 **/
 TREE *create_node(unsigned char character, long long int frequency, TREE *left, TREE *right);
 
-
 /**
  *	Percorre e armazena todos os caminhos da árvore de huffman
  *  @param: *tree árvore binária
@@ -75,15 +71,6 @@ void map_paths(TREE *tree, HASH *hash, char *path, int i);
  *   @return: árvore de Huffman
 **/
 TREE *create_huffman_tree(HEAP *heap);
-
-/**
- *	Lê e monta uma árvore binária escrita em pré-ordem a partir de um arquivo
- *  @param: *tree árvore binária
- *  @param: *input arquivo onde está escrita a árvore binária
- *  @param: *tree_size tamanho da árvore binária
- *  @return: árvore binária
-**/
-TREE *read_pre_order_tree(TREE *tree, FILE *input, int *tree_size);
 
 /**
 *	Escreve uma árvore binária em pré-ordem em um arquivo

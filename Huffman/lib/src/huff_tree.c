@@ -30,7 +30,7 @@ int is_leaf(TREE *tree)
 	return (tree->left == NULL) && (tree->right == NULL);
 }
 
-int escape_char(TREE *tree, unsigned char c)
+int is_escape_char(TREE *tree, unsigned char c)
 {
 	if (is_leaf(tree))
 	{
@@ -40,7 +40,7 @@ int escape_char(TREE *tree, unsigned char c)
 	return  0;
 }
 
-unsigned short tree_size(TREE *tree)
+unsigned short get_tree_size(TREE *tree)
 {
 	if (is_empty(tree))
     {
@@ -48,12 +48,12 @@ unsigned short tree_size(TREE *tree)
     }
 
     // Se um caracter especial está numa folha, no arquivo de texto, será escrito com 2 chars ('\*' ou '\\')
-	if (escape_char(tree, tree->c))
+	if (is_escape_char(tree, tree->c))
     {
         return 2;
     }
 
-	return 1 + tree_size(tree->left) + tree_size(tree->right);
+	return 1 + get_tree_size(tree->left) + get_tree_size(tree->right);
 }
 
 void free_tree(TREE *tree)
@@ -149,48 +149,6 @@ void map_paths(TREE *tree, HASH *hash, char *path, int i)
     }
 }
 
-TREE *read_pre_order_tree(TREE *tree, FILE *input, int *tree_size)
-{
-    // Termina de ler a árvore
-	if (tree_size == 0)
-	{
-		return NULL;
-	}
-
-	unsigned char c;
-
-	int is_leaf = 0;
-	fread(&c, 1, 1, input);
-	(*tree_size)--;
-
-    // Se a folha tem um caracter de escape, lê o próximo char
-	if (escape_char(tree, c))
-	{
-		fread(&c, 1, 1, input);
-		is_leaf = 1;
-	}
-	else if (c != '*')
-	{
-		is_leaf = 1;
-	}
-
-	tree = create_node(c, 0, NULL, NULL);
-
-    // Se for uma folha, não há nó filho
-	if (is_leaf)
-	{
-		tree->left = NULL;
-		tree->right = NULL;
-	}
-	else
-	{
-		tree->left = read_pre_order_tree(tree->left, input, tree_size);
-		tree->right = read_pre_order_tree(tree->right, input, tree_size);
-	}
-
-	return tree;
-}
-
 void write_pre_order_tree(TREE *tree, FILE *output)
 {
 	if (is_empty(tree))
@@ -199,7 +157,7 @@ void write_pre_order_tree(TREE *tree, FILE *output)
 	}
 
     // Se a folha tem um char especial, então escrevemos o caracter de escape
-	if (escape_char(tree, tree->c))
+	if (is_escape_char(tree, tree->c))
 	{
 		fprintf(output, "%c", '\\');
 	}

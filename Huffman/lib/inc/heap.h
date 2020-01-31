@@ -3,7 +3,7 @@
 
 #define HEAP_MAX_SIZE 257
 
-/* Heap - Priority Queue */
+/** Heap - Priority Queue **/
 typedef struct HEAP HEAP;
 struct HEAP{
     int size;

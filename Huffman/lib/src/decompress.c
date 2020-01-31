@@ -18,7 +18,7 @@ int get_trash_size(FILE *input)
 	return trash_size;
 }
 
-short get_tree_size(FILE *input)
+short get_tree_size_from_file(FILE *input)
 {
 	short tree_size = 0;        //2 bytes
 	unsigned char byte;
@@ -108,7 +108,7 @@ void decompress(FILE *input, FILE *output)
 {
 	int trash_size = get_trash_size(input);
 	rewind(input);
-	short tree_size = get_tree_size(input);
+	short tree_size = get_tree_size_from_file(input);
 
     printf("trash size: %d\n", trash_size);
     printf("tree size: %d\n", tree_size);

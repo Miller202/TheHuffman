@@ -20,7 +20,7 @@ void compress_file(FILE *input, FILE *output)
     HEAP *heap = mount_heap(input);
     rewind(input);
     TREE *huff_tree = create_huffman_tree(heap);
-    unsigned short tree_sz = tree_size(huff_tree);
+    unsigned short tree_sz = get_tree_size(huff_tree);
     printf("tree size: %d\n", tree_sz);
     //TODO free_heap(heap);
     

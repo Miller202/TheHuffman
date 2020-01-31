@@ -4,25 +4,33 @@
 #include "heap.h"
 #include "hash.h"
 #include "huff_tree.h"
-// #include <CUnit/CUnit.h>
 
 /**
-* 	@param: recebe o caracter e a posição do bit
-*	@return: Verifica se o bit do caractere está definido
-**/
+ *  Verifica se o bit do caracter está definido
+ *
+ *  @param: c o caracter
+ *  @param i a posição do bit
+ *  @return: 1 se o bit do caractere está definido, 0 se não
+ **/
 int is_bit_set(unsigned char c, int i);
 
 /**
 * 	@param: recebe o ponteiro do arquivo de entrada
 *	@return: Retorna o tamanho do lixo do arquivo
 **/
+/**
+ *  Verifica se o bit do caracter está definido
+ *
+ *  @param: *input o ponteiro do arquivo de entrada
+ *  @return: 1 se o bit do caractere está definido, 0 se não
+ **/
 int get_trash_size(FILE *input);
 
 /**
 * 	@param: recebe o ponteiro do arquivo de entrada
 *	@return: Retorna o tamanho da árvore do arquivo
 **/
-short get_tree_size(FILE *input);
+short get_tree_size_from_file(FILE *input);
 
 /**
 * 	@param: recebe o ponteiro do arquivo de entrada
