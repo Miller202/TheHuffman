@@ -1,7 +1,3 @@
-//
-// Created by MichelT on 15/01/2020.
-//
-
 #include "CUnit/Basic.h"
 #include "heap.h"
 

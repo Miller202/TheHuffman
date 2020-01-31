@@ -1,7 +1,3 @@
-//
-// Created by MichelT on 14/01/2020.
-//
-
 #include "CUnit/Basic.h"
 #include "hash.h"
 
@@ -32,37 +28,45 @@ void put_get_test() {
 }
 
 
-int main (int argc, char** argv) {
+int main (int argc, char** argv)
+{
     CU_pSuite pSuite = NULL;
 
-    /* initialize the CUnit test registry */
+
     if (CUE_SUCCESS != CU_initialize_registry())
+    {
         return CU_get_error();
 
-    /* add a suite to the registry */
+    }
+
+
     pSuite = CU_add_suite("Suite_1", NULL, NULL);
-    if (NULL == pSuite) {
+    if (NULL == pSuite)
+    {
         CU_cleanup_registry();
         return CU_get_error();
     }
 
-    /* add the tests to the suite */
-    if (NULL == CU_add_test(pSuite, "Create hash test", create_test)) {
+
+    if (NULL == CU_add_test(pSuite, "Create hash test", create_test))
+    {
         CU_cleanup_registry();
         return CU_get_error();
     }
-    if (NULL == CU_add_test(pSuite, "Create table test", create_table_test)) {
+    if (NULL == CU_add_test(pSuite, "Create table test", create_table_test))
+    {
         CU_cleanup_registry();
         return CU_get_error();
     }
-    if (NULL == CU_add_test(pSuite, "Put and get test", put_get_test)) {
+    if (NULL == CU_add_test(pSuite, "Put and get test", put_get_test)){
         CU_cleanup_registry();
         return CU_get_error();
     }
 
-    /* Run all tests using the CUnit Basic interface */
+
     CU_basic_set_mode(CU_BRM_VERBOSE);
     CU_basic_run_tests();
     CU_cleanup_registry();
+
     return CU_get_error();
 }
