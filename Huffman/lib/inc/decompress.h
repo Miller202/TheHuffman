@@ -18,12 +18,6 @@ int is_bit_set(unsigned char c, int i);
 * 	@param: recebe o ponteiro do arquivo de entrada
 *	@return: Retorna o tamanho do lixo do arquivo
 **/
-/**
- *  Verifica se o bit do caracter está definido
- *
- *  @param: *input o ponteiro do arquivo de entrada
- *  @return: 1 se o bit do caractere está definido, 0 se não
- **/
 int get_trash_size(FILE *input);
 
 /**
