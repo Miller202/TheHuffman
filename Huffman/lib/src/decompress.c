@@ -110,9 +110,6 @@ void decompress(FILE *input, FILE *output)
 	rewind(input);
 	short tree_size = get_tree_size_from_file(input);
 
-    printf("trash size: %d\n", trash_size);
-    printf("tree size: %d\n", tree_size);
-
 	TREE* tree = create_node('*', 0, NULL, NULL);
 
 	tree = get_hufftree(input, tree);

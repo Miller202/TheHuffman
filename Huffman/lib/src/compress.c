@@ -21,7 +21,6 @@ void compress_file(FILE *input, FILE *output)
     rewind(input);
     TREE *huff_tree = create_huffman_tree(heap);
     unsigned short tree_sz = get_tree_size(huff_tree);
-    printf("tree size: %d\n", tree_sz);
     //TODO free_heap(heap);
     
     HASH *paths = create_hash();
@@ -94,17 +93,18 @@ unsigned char write_one_ascii_char_doc(FILE *input, FILE *output)
             fwrite(&byte, 1, 1, output);
             i = 0;
         }
-        i++;
+        else {
+            i++;
+        }
+
     }
-    if (i == 1) {
-        printf("trash: 0");
+    if (i == 0) {
         return 0;
     }
 
     fwrite(&byte, 1, 1, output);
 
-    printf("trash: %d", (i - 1));
-    return (unsigned char) (i - 1);
+    return (unsigned char) (8 - i);
 
 }
 unsigned char write_compress_doc(FILE *input, FILE *output, HASH *paths)
@@ -136,11 +136,9 @@ unsigned char write_compress_doc(FILE *input, FILE *output, HASH *paths)
     }
 
     if (bt_cont == 7) {          //se não tem lixo
-        printf("trash size: 0\n");
         return 0;
     }
     fwrite(&byte, 1, 1, output);        //escreve o último byte (com lixo no final)
 
-    printf("trash size: %d\n", (bt_cont + 1));
     return (unsigned char) (bt_cont + 1);   // Retorna o lixo do fim do arquivo
 }
