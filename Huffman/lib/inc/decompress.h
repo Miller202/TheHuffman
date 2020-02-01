@@ -45,7 +45,9 @@ TREE* get_hufftree(FILE *input, TREE* tree);
  *  @param: *input o ponteiro do arquivo de entrada
  *  @param: *output o ponteiro do arquivo de saída
  *  @param: *tree o ponteiro da árvore criada por get_hufftree
- *  @param: trash_size o tamanho =v s_file(FILE* input, FILE* output, TREE* tree, int trash_size);
+ *  @param: trash_size o tamanho do lixo da árvore
+**/
+void decompress_file(FILE* input, FILE* output, TREE* tree, int trash_size);
 
 /**
  *  Realiza a descompactação do arquivo.
