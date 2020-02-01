@@ -32,7 +32,8 @@ btree_page* split_page(btree *btree, btree_page *page, void **key, void **value)
     return new_page;
 }
 
-void* insert_page(btree *btree, btree_page *page, void **key, void **value)
+void* insert_page(btree *btree, btree_page *page, 
+		  void **key, void **value)
 {
     size_t left = 0, right = page->size;
     while(left < right)
@@ -65,9 +66,9 @@ void* insert_page(btree *btree, btree_page *page, void **key, void **value)
     }
 
     page->size++;
-    /* copia o conteúdo do item da posição i para a posição i+1;
-    * a diferença pra o memcpy é que o memmove lida com a sobreposição de memória */
-    memmove(&page->items[i+1], &page->items[i], (page->size - 1) * sizeof(btree_item));
+    // copia o conteúdo do item da posição i para a posição i+1;
+    memmove(&page->items[i+1], &page->items[i], 
+	    (page->size - 1) * sizeof(btree_item));
     page->items[i].key = *key;
     page->items[i].value = *value;
     page->items[i].child = child;
