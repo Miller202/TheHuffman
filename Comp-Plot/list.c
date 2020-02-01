@@ -21,20 +21,54 @@ node* add_list(node *head, int item)
 
     return new_node;
 }
-
-int search_list(node *head, int item, int *comp_list)
+node* add_ending(node *head, int item)
 {
-    *comp_list += 1;
+    node *n_node = create_node_list(item);
 
-	if (head != NULL)
-	{
-		if (head->item == item)
-		{
-			return 1; // item encontrado
-		}
-		return search_list(head->next, item, comp_list); // chama o proximo
-	}
-	return 0; // item nao encontrado
+    node *current = head;
+
+    if (head == NULL)
+        return n_node;
+
+    while (current->next != NULL)
+        current = current->next;
+
+    current->next = n_node;
+
+    return head;
+}
+
+int search_list(node *head, int item)
+{
+//    if (head == NULL)
+//    {
+//        return 1;
+//    }
+//
+//    if (head->item == item)
+//    {
+//        return 1; // item encontrado
+//    }
+//
+//    return 1 + search_list(head->next, item); // chama o proximo
+
+    if (head == NULL)
+    {
+        return 1;
+    }
+    int comp = 0;
+    while (head->next != NULL)
+    {
+        comp++;
+        if (head->item == item)
+        {
+            return comp;
+        }
+        head = head->next;
+    }
+
+    return -1;
+
 }
 
 void print_linked_list(node *head) // imprime a lista
