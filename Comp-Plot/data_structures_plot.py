@@ -4,7 +4,7 @@ number_sort = []
 lst = []
 bst = []
 
-dataset = open('ot.txt', 'r')
+dataset = open('out.txt', 'r')
 
 for line in dataset:
     line = line.strip()

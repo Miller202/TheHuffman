@@ -13,7 +13,7 @@ int main()
     range = 60000;
     q_sorted = 10000;
 
-    FILE *out = fopen("../ot.txt", "w+b");
+    FILE *out = fopen("../out.txt", "w+b");
 
     for (i = 0; i < q_sorted; i++)
 	{
