@@ -13,7 +13,7 @@ int get_trash_size(FILE *input)
 {
 	int trash_size = 0;
 	unsigned char byte;
-	fscanf(input, "%c", &byte);
+	fscanf(input, "%c", &byte); //TODO PADRONIZAR O USO DA LEITURA DE ARQUIVO
 	trash_size = byte >> 5;     //retira os 5 bits do tree size
 	return trash_size;
 }
