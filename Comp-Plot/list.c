@@ -38,31 +38,19 @@ node* add_ending(node *head, int item)
     return head;
 }
 
-int search_list(node *head, int item)
+int search_list(node *head, int item, int *comp)
 {
-//    if (head == NULL)
-//    {
-//        return 1;
-//    }
-//
-//    if (head->item == item)
-//    {
-//        return 1; // item encontrado
-//    }
-//
-//    return 1 + search_list(head->next, item); // chama o proximo
-
     if (head == NULL)
     {
-        return 1;
+        (*comp)++;
+        return -1;
     }
-    int comp = 0;
     while (head->next != NULL)
     {
-        comp++;
+        (*comp)++;
         if (head->item == item)
         {
-            return comp;
+            return 1;
         }
         head = head->next;
     }

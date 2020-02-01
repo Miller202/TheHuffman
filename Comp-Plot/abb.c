@@ -34,24 +34,24 @@ bs_tree* add_bst(bs_tree *bst, int item)
     return bst;
 }
 
-int search_bst(bs_tree *bst, int item)
+int search_bst(bs_tree *bst, int item, int *comp)
 {
-	if(bst == NULL) // se a arvore é nula retorna 0;
-	{
-		return 1;
-	}
+    (*comp)++;
 
-    if(bst->item == item) // se o item atual é o que deseja, retorna 1
+    if(bst == NULL) // se a arvore é nula retorna 0;
     {
-        return 1;
+        return 0;
     }
-    if(item < bst->item) // se o item é menor que o item atual, procure no filho da esquerda;
-    {
-        return 1 + search_bst(bst->left, item);
-    }
-    else
-    {	// se o item é maior que o item atual, procure no filho da direita.
-        return 1 + search_bst(bst->right, item);
+    else {
+        if (bst->item == item) // se o item atual é o que deseja, retorna 1
+        {
+            return 1;
+        } else if (item < bst->item) // se o item é menor que o item atual, procure no filho da esquerda;
+        {
+            search_bst(bst->left, item, comp);
+        } else {    // se o item é maior que o item atual, procure no filho da direita.
+            search_bst(bst->right, item, comp);
+        }
     }
 
 }

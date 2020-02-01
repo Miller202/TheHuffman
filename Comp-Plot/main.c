@@ -8,38 +8,37 @@ int main()
     node* list = create_linked_list();
     bs_tree* bt = create_empty_bst();
 
-    int final, num, i;
+    int range, q_sorted,num, i;
 
-    printf("Digite o numero final do intervalo (0 - numero)\n");
-    scanf("%d", &final);
+    range = 60000;
+    q_sorted = 10000;
 
     FILE *out = fopen("../ot.txt", "w+b");
 
-    int sorted_numbers[100];
-    for (i = 0; i < 100; i++)
+    for (i = 0; i < q_sorted; i++)
 	{
-        num = rand() % final;
-        sorted_numbers[i] = num;
+        num = rand() % range;
         list = add_ending(list, num);
         bt = add_bst(bt, num);
 
     }
 
-
-    int comp_list = 0, comp_bst = 0;
-    for (i = 0; i < 100; i++)
+    int find_bst, find_list, n_comp_list = 0, n_comp_bst = 0;
+    for (i = 0; i < q_sorted; i++)
     {
-            num = rand() % 100;
-            comp_list = search_list(list, sorted_numbers[num]);
-            comp_bst = search_bst(bt, sorted_numbers[num]);
+        find_bst = 0;
+        find_list = 0;
+        num = rand() % range;
 
-            if (comp_list != -1)
-                fprintf(out, "%d %d %d\n", sorted_numbers[num], comp_list, comp_bst);
+        n_comp_list = search_list(list, num, &find_list);
+        n_comp_bst = search_bst(bt, num, &find_bst);
+
+        if (n_comp_list != -1 && n_comp_bst != -1)
+            fprintf(out, "%d %d %d\n", num, find_list, find_bst);
 
     }
 
     fclose(out);
 
-    printf("blz andre\n");
     return 0;
 }
