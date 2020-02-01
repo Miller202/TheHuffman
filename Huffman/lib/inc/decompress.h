@@ -15,37 +15,45 @@
 int is_bit_set(unsigned char c, int i);
 
 /**
-* 	@param: recebe o ponteiro do arquivo de entrada
-*	@return: Retorna o tamanho do lixo do arquivo
+ *  Obtém o tamanho do lixo do arquivo
+ *
+ *  @param: *input o ponteiro do arquivo de entrada
+ *  @return: o tamanho do lixo do arquivo
 **/
 int get_trash_size(FILE *input);
 
 /**
-* 	@param: recebe o ponteiro do arquivo de entrada
-*	@return: Retorna o tamanho da árvore do arquivo
+ *  Obtém o tamanho da árvore escrita no arquivo
+ *
+ *  @param: *input o ponteiro do arquivo de entrada
+ *  @return: o tamanho da árvore do arquivo
 **/
 short get_tree_size_from_file(FILE *input);
 
 /**
-* 	@param: recebe o ponteiro do arquivo de entrada
-*   @param: recebe o ponteiro de uma árvore criada
-*	@return: Constrói a árvore do arquivo .huff
+ *  Obtém a árvore a partir do arquivo .huff
+ *
+ *  @param: *input o ponteiro do arquivo de entrada
+ *  @param: *tree o ponteiro de uma árvore criada
+ *  @return: o tamanho da árvore do arquivo
 **/
 TREE* get_hufftree(FILE *input, TREE* tree);
 
 /**
-* 	@param: recebe o ponteiro do arquivo de entrada
-*   @param: recebe o ponteiro do arquivo de saída
-*   @param: recebe a árvore do arquivo
-*   @param: recebe o tamanho do lixo
-*	@return: Realiza a descompactação do arquivo
+ *  Função auxiliar de decompress. Realiza a descompactação do arquivo.
+ *
+ *  @param: *input o ponteiro do arquivo de entrada
+ *  @param: *output o ponteiro do arquivo de saída
+ *  @param: *tree o ponteiro da árvore criada por get_hufftree
+ *  @param: trash_size o tamanho do lixo da árvore
 **/
 void decompress_file(FILE* input, FILE* output, TREE* tree, int trash_size);
 
 /**
-* 	@param: recebe o ponteiro do arquivo de entrada
-*   @param: recebe o ponteiro do arquivo de saída
-*	@return: Realiza a decompactação do arquivo
+ *  Realiza a descompactação do arquivo.
+ *
+ *  @param: *input o ponteiro do arquivo de entrada
+ *  @param: *output o ponteiro do arquivo de saída
 **/
 void decompress(FILE *input, FILE *output);
 
