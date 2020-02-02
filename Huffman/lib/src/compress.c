@@ -31,12 +31,7 @@ void compress_file(FILE *input, FILE *output)
 
     map_paths(huff_tree, paths, path, 0);
 
-//    print_hash(paths);
-
     write_tree_size(tree_sz, output);
-
-//    print_tree_pre_order_char(huff_tree);
-//    printf("\n");
 
     write_pre_order_tree(huff_tree, output);
 
@@ -71,13 +66,13 @@ void write_trash(u_char trash, FILE *file)
     rewind(file);
 
     u_char c;
-    fread(&c, 1, 1, file);
+    fscanf(file, "%c", &c);
 
     trash = trash << 5;    //coloca os 3 últimos bits nas 3 primeiras posições do byte
-    trash |= c;             //"junta os 2 bytes
+    trash |= c;             //"junta" os 2 bytes
 
     rewind(file);
-    fprintf(file, "%c", trash);
+    fwrite(&trash, 1, 1, file);
 
     rewind(file);
 }
