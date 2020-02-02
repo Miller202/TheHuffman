@@ -21,18 +21,16 @@ void menu_loop ()
         {
             case 1:
                 compress_option();
-                printf("Successful compress!\n");
                 break;
             case 2:
                 decompress_option();
-                printf("Successful decompress!\n");
                 break;
             case 3:
                 printf("Bye!\n");
                 exit(0);
                 break;
             default:
-                printf("Invalid Command\n");
+                printf("Invalid Command. Please, try again.\n");
                 break;
         }
         printf("\n\n");
@@ -72,32 +70,50 @@ void decompress_option()
 void open_files_compress (char *input_name)
 {
     FILE *input = fopen(input_name, "rb");
-    check_malloc(input);
+    if (input == NULL)
+    {
+        printf("File not found. Please, try again.\n");
+    }
+    else
+    {
+        char *output_name = concat(input_name, ".huff");
+        FILE *output = fopen(output_name, "w+b");
+        check_malloc(output);
 
-    char *output_name = concat(input_name, ".huff");
-    FILE *output = fopen(output_name, "w+b");
-    check_malloc(output);
+        compress_file(input, output);
 
-    compress_file(input, output);
+        fclose(output);
 
-    fclose(output);
+        free(input);
+        free(output);
 
-    free(input);
-    free(output);
+        printf("Successful compress!\n");
+    }
+    
 }
 
 void open_files_decompress (char *compressed_name, char *decompressed_name)
 {
     FILE *input = fopen(compressed_name, "rb");
-    check_malloc(input);
+    if (input == NULL)
+    {
+        printf("File not found. Please, try again.\n");
+    }
+    else
+    {
+        FILE *output = fopen(decompressed_name, "w+b");
+        check_malloc(output);
 
-    FILE *output = fopen(decompressed_name, "w+b");
-    check_malloc(output);
+        decompress(input, output);
 
-    decompress(input, output);
+        fclose(output);
 
-    fclose(output);
+        free(input);
+        free(output);
 
-    free(input);
-    free(output);
+        printf("Successful decompress!\n");
+    }
+    
+
+    
 }
