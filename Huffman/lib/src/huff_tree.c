@@ -77,18 +77,11 @@ TREE *create_huffman_tree(HEAP *heap)
     // Enquanto restar mais de 1 árvore na heap
 	while (heap->size > 1)
 	{
-//	    printf("dequeue: ");
 
         // Pega as 2 árvores de menor frequência
 		TREE *left_child_tree = dequeue(heap);
 
-//        print_tree_pre_order(left_child_tree);
-//        printf(" | ");
-
 		TREE *right_child_tree = dequeue(heap);
-
-//		print_tree_pre_order(right_child_tree);
-//        printf("\n");
 
         // Cria uma nova árvore, com a frequência igual a das 2 árvores de menor frequência
         TREE *parent_tree = create_node('*', 0, left_child_tree, right_child_tree);
@@ -96,17 +89,10 @@ TREE *create_huffman_tree(HEAP *heap)
 
         // Adiciona a nova árvore à heap
 		enqueue(heap, parent_tree->frequency, parent_tree);
-
-//		printf("heap: ");
-//        print_heap(heap, print_tree_node_heap);
-//        printf("\n\n");
 	}
 
-//    printf("\n");
 
 	TREE *t = dequeue(heap);
-
-//    print_tree_pre_order(t);
 
     // Retorna a raiz da árvore
 	return t;
@@ -159,7 +145,7 @@ void write_pre_order_tree(TREE *tree, FILE *output)
     // Se a folha tem um char especial, então escrevemos o caracter de escape
 	if (is_escape_char(tree, tree->c))
 	{
-		fprintf(output, "%c", '\\');
+	    fprintf(output, "%c", '\\');
 	}
 
 	fwrite(&tree->c, 1, 1, output);

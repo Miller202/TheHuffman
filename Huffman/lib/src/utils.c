@@ -13,8 +13,6 @@ void create_priority_queue(lli frequency[], HEAP *heap) {
             enqueue(heap, frequency[i], create_node((u_char) i, frequency[i], NULL, NULL));
         }
     }
-//    print_heap(heap, print_tree_node_heap);
-//    printf("\n");
 }
 
 lli *frequency_counter(FILE *file) {

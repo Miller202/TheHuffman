@@ -13,7 +13,7 @@ int get_trash_size(FILE *input)
 {
 	int trash_size = 0;
 	u_char byte;
-	fscanf(input, "%c", &byte); //TODO PADRONIZAR O USO DA LEITURA DE ARQUIVO
+	fscanf(input, "%c", &byte);
 	trash_size = byte >> 5;     //retira os 5 bits do tree size
 	return trash_size;
 }
@@ -61,7 +61,7 @@ void decompress_one_ascii_file(FILE* input, FILE* output, TREE* tree, int trash_
 	{
 		for(i = 7; i >= 0; i--)
 		{
-			fprintf(output, "%c", new_tree->c);
+            fwrite(&new_tree->c, 1, 1, output);
 			new_tree = tree;
 		}
 
@@ -70,7 +70,7 @@ void decompress_one_ascii_file(FILE* input, FILE* output, TREE* tree, int trash_
 
     for(i = 7; i >= trash_size; i--)    //loop para o último byte
     {
-		fprintf(output, "%c", new_tree->c);
+        fwrite(&new_tree->c, 1, 1, output);
 		new_tree = tree;
     }
 }
@@ -86,7 +86,7 @@ void decompress_file(FILE* input, FILE* output, TREE* tree, int trash_size)
 	{
 		for(i = 7; i >= 0; i--)
 		{
-			if(is_bit_set(c_1, i)) //se o bit da posicao atual ? 1, ent?o ir para a direita na ?rvore
+			if(is_bit_set(c_1, i)) //se o bit da posicao atual é 1, então ir para a direita na árvore
 			{
 				new_tree = new_tree->right;
 			}
@@ -96,7 +96,8 @@ void decompress_file(FILE* input, FILE* output, TREE* tree, int trash_size)
             
 			if (is_leaf(new_tree))
             {
-                fprintf(output, "%c", new_tree->c);
+                fwrite(&new_tree->c, 1, 1, output);
+
                 new_tree = tree;
             }
 		}
@@ -104,7 +105,7 @@ void decompress_file(FILE* input, FILE* output, TREE* tree, int trash_size)
         c_1 = c_2;
 	}
 
-    for(i = 7; i >= trash_size; i--)    //loop para o ?ltimo byte
+    for(i = 7; i >= trash_size; i--)    //loop para o último byte
     {
 		if(is_bit_set(c_1, i))
 		{
@@ -116,7 +117,7 @@ void decompress_file(FILE* input, FILE* output, TREE* tree, int trash_size)
 
         if(is_leaf(new_tree))
         {
-            fprintf(output, "%c", new_tree->c);
+            fwrite(&new_tree->c, 1, 1, output);
             new_tree = tree;
         }
     }
