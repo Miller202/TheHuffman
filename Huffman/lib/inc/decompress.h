@@ -40,6 +40,16 @@ short get_tree_size_from_file(FILE *input);
 TREE* get_hufftree(FILE *input, TREE* tree);
 
 /**
+ * Função auxiliar de decompress. Realiza a descompactação do arquivo que possui apenas 1 tipo de caractere da tabela ascii.
+ *
+ * @param: *input o ponteiro do arquivo de entrada
+ * @param: *output o ponteiro do arquivo de saída
+ * @param: *tree o ponteiro da árvore criada por get_hufftree
+ * @param: trash_size o tamanho do lixo da árvore
+ */
+void decompress_one_ascii_file(FILE* input, FILE* output, TREE* tree, int trash_size);
+
+/**
  * Função auxiliar de decompress. Realiza a descompactação do arquivo.
  *
  * @param: *input o ponteiro do arquivo de entrada
