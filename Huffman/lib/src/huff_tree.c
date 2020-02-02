@@ -7,7 +7,7 @@
 #include "heap.h"
 
 
-TREE *create_node(unsigned char character, long long int frequency, TREE *left, TREE *right)
+TREE *create_node(u_char character, lli frequency, TREE *left, TREE *right)
 {
 	TREE *new_node = (TREE*)malloc(sizeof(TREE));
 	check_malloc(new_node);
@@ -30,7 +30,7 @@ int is_leaf(TREE *tree)
 	return (tree->left == NULL) && (tree->right == NULL);
 }
 
-int is_escape_char(TREE *tree, unsigned char c)
+int is_escape_char(TREE *tree, u_char c)
 {
 	if (is_leaf(tree))
 	{
@@ -40,7 +40,7 @@ int is_escape_char(TREE *tree, unsigned char c)
 	return  0;
 }
 
-unsigned short get_tree_size(TREE *tree)
+u_short get_tree_size(TREE *tree)
 {
 	if (is_empty(tree))
     {
@@ -67,7 +67,7 @@ void free_tree(TREE *tree)
     }
 }
 
-long long int get_parent_frequency(TREE *tree)
+lli get_parent_frequency(TREE *tree)
 {
 	return tree->left->frequency + tree->right->frequency;
 }

@@ -6,23 +6,23 @@
 #include "heap.h"
 #include "huff_tree.h"
 
-void create_priority_queue(long long int frequency[], HEAP *heap) {
+void create_priority_queue(lli frequency[], HEAP *heap) {
     int i;
     for (i = 0; i < 256; i++) {
         if (frequency[i] != 0) {
-            enqueue(heap, frequency[i], create_node((unsigned char) i, frequency[i], NULL, NULL));
+            enqueue(heap, frequency[i], create_node((u_char) i, frequency[i], NULL, NULL));
         }
     }
 //    print_heap(heap, print_tree_node_heap);
 //    printf("\n");
 }
 
-long long int *frequency_counter(FILE *file) {
+lli *frequency_counter(FILE *file) {
 
-    long long int *frequency = calloc(256, sizeof(long long int));
+    lli *frequency = calloc(256, sizeof(lli));
     check_malloc(frequency);
 
-    unsigned char item;
+    u_char item;
 
     while (fscanf(file, "%c", &item) != EOF) {
         frequency[(int) item]++;
@@ -34,7 +34,7 @@ long long int *frequency_counter(FILE *file) {
 HEAP *mount_heap(FILE *file)
 {
     HEAP *heap = create_heap();
-    long long int *frequency = frequency_counter(file);
+    lli *frequency = frequency_counter(file);
     create_priority_queue(frequency, heap);
 
     return heap;

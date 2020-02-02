@@ -8,9 +8,9 @@
 #include "huff_tree.h"
 #include "utils.h"
 
-unsigned char set_bit(unsigned char c, int i)
+u_char set_bit(u_char c, int i)
 {
-    unsigned char mask = 1 << i;
+    u_char mask = 1 << i;
     return mask | c;
 }
 
@@ -25,7 +25,7 @@ void compress_file(FILE *input, FILE *output)
 
     HASH *paths = create_hash();
 
-    unsigned short tree_sz = get_tree_size(huff_tree);
+    u_short tree_sz = get_tree_size(huff_tree);
 
     char path[tree_sz];
 
@@ -40,7 +40,7 @@ void compress_file(FILE *input, FILE *output)
 
     write_pre_order_tree(huff_tree, output);
 
-    unsigned char trash = 0;
+    u_char trash = 0;
 
     if (is_leaf(huff_tree))
     {
@@ -58,19 +58,19 @@ void compress_file(FILE *input, FILE *output)
     free_hash(paths);
 }
 
-void write_tree_size(unsigned short tree_sz, FILE *file)
+void write_tree_size(u_short tree_sz, FILE *file)
 {
-    unsigned short bytes = tree_sz << 8;
+    u_short bytes = tree_sz << 8;
     bytes |= tree_sz >> 8;
 
     fwrite(&bytes, 2, 1, file);
 }
 
-void write_trash(unsigned char trash, FILE *file)
+void write_trash(u_char trash, FILE *file)
 {
     rewind(file);
 
-    unsigned char c;
+    u_char c;
     fread(&c, 1, 1, file);
 
     trash = trash << 5;    //coloca os 3 últimos bits nas 3 primeiras posições do byte
@@ -82,10 +82,10 @@ void write_trash(unsigned char trash, FILE *file)
     rewind(file);
 }
 
-unsigned char write_one_ascii_char_doc(FILE *input, FILE *output)
+u_char write_one_ascii_char_doc(FILE *input, FILE *output)
 {
     int i = 0;
-    unsigned char c, byte = 0;
+    u_char c, byte = 0;
 
     while (fscanf(input, "%c", &c) != EOF)
     {
@@ -105,13 +105,13 @@ unsigned char write_one_ascii_char_doc(FILE *input, FILE *output)
 
     fwrite(&byte, 1, 1, output);
 
-    return (unsigned char) (8 - i);
+    return (u_char) (8 - i);
 
 }
-unsigned char write_compress_doc(FILE *input, FILE *output, HASH *paths)
+u_char write_compress_doc(FILE *input, FILE *output, HASH *paths)
 {
     int i = 0, bt_cont = 7, path_size;
-    unsigned char c, byte = 0;
+    u_char c, byte = 0;
 
     while (fscanf(input, "%c", &c) != EOF)
     {
@@ -141,5 +141,5 @@ unsigned char write_compress_doc(FILE *input, FILE *output, HASH *paths)
     }
     fwrite(&byte, 1, 1, output);        //escreve o último byte (com lixo no final)
 
-    return (unsigned char) (bt_cont + 1);   // Retorna o lixo do fim do arquivo
+    return (u_char) (bt_cont + 1);   // Retorna o lixo do fim do arquivo
 }

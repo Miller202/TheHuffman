@@ -140,7 +140,7 @@ void write_pre_order_tree_test()
 
     rewind(f);
 
-    unsigned char c = '0';
+    u_char c = '0';
     char resp[] = {"**CB**D*FEA"};
 
     for (int i = 0; i < strlen(resp); ++i)

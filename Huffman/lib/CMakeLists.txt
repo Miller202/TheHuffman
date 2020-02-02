@@ -7,7 +7,7 @@ add_library(HuffLib inc/hash.h src/hash.c
         inc/huff_tree.h src/huff_tree.c
         inc/compress.h src/compress.c
         inc/decompress.h src/decompress.c
-        inc/menu.h src/menu.c)
+        inc/menu.h src/menu.c inc/typedefs.h)
 
 add_executable(Huffman src/main.c)
 

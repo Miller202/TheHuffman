@@ -3,16 +3,16 @@
 
 #include "../inc/decompress.h"
 
-int is_bit_set(unsigned char c, int i)
+int is_bit_set(u_char c, int i)
 {
-    unsigned char mask = 1 << i;
+    u_char mask = 1 << i;
     return mask & c;
 }
 
 int get_trash_size(FILE *input)
 {
 	int trash_size = 0;
-	unsigned char byte;
+	u_char byte;
 	fscanf(input, "%c", &byte); //TODO PADRONIZAR O USO DA LEITURA DE ARQUIVO
 	trash_size = byte >> 5;     //retira os 5 bits do tree size
 	return trash_size;
@@ -21,7 +21,7 @@ int get_trash_size(FILE *input)
 short get_tree_size_from_file(FILE *input)
 {
 	short tree_size = 0;        //2 bytes
-	unsigned char byte;
+	u_char byte;
 	fscanf(input, "%c", &byte);
 	byte <<= 3;
 	byte >>= 3;                 //retira os 3 bits do trash size
@@ -33,7 +33,7 @@ short get_tree_size_from_file(FILE *input)
 
 TREE* get_hufftree(FILE* input, TREE* tree)
 {
-	unsigned char c;
+	u_char c;
 	fscanf(input, "%c",&c);
 	tree = create_node(c, 0, NULL, NULL);
 
@@ -54,7 +54,7 @@ void decompress_one_ascii_file(FILE* input, FILE* output, TREE* tree, int trash_
 	TREE* new_tree = tree;
 
 	int i;
-    unsigned char c_1, c_2;
+    u_char c_1, c_2;
 
     fscanf(input, "%c", &c_1);
 	while(fscanf(input, "%c", &c_2) != EOF)
@@ -79,7 +79,7 @@ void decompress_file(FILE* input, FILE* output, TREE* tree, int trash_size)
 	TREE* new_tree = tree;
 
 	int i;
-    unsigned char c_1, c_2;
+    u_char c_1, c_2;
 
     fscanf(input, "%c", &c_1);
 	while(fscanf(input, "%c", &c_2) != EOF)
