@@ -3,66 +3,100 @@
 
 #define HEAP_MAX_SIZE 257
 
-/** Heap - Priority Queue **/
+/** Heap - Fila de prioridade **/
 typedef struct HEAP HEAP;
-struct HEAP{
+struct HEAP {
     int size;
     void *data[HEAP_MAX_SIZE];
 };
 
 typedef long long int lli;
 
+/** Nó auxiliar **/
+typedef struct _node {
+    lli priority;
+    void *data;
+} _node;
+
 /**
-*	Aloca memória para criar um heap
-* 	@return: retorna o novo heap que foi criado
-**/
+ * Cria um nó dinamicamente para encapsular o novo item da heap e sua prioridade
+ *
+ * @param priority a prioridade do novo item
+ * @param data os dados do novo item da heap
+ * @return o nó criado
+ */
+_node* _create_node(lli priority, void *data);
+
+/**
+ * Aloca memória para criar um heap
+ *
+ * @return: o novo heap criado
+ */
 HEAP *create_heap();
 
 /**
-* 	@param: recebe o índice de um nó do heap
-*	@return: retorna o índice do nó pai, calculado como: (i/2)
-**/
+ * Obtém o índice do nó pai
+ *
+ * @param: i o índice de um nó do heap
+ * @return: o índice do nó pai, calculado como: (i/2)
+ */
 int get_parent_index(int i);
 
 /**
-* 	@param: recebe o índice de um nó do heap
-*	@return: retorna o índice do filho da esquerda, calculado como: (2*i)
-**/
+ * Obtém o índice do filho da esquerda
+ *
+ * @param: i o índice de um nó do heap
+ * @return: o índice do filho da esquerda, calculado como: (2*i)
+ */
 int get_left_index(int i);
 
 /**
-* 	@param: recebe o índice de um nó do heap
-*	@return: retorna o índice do filho da direita, calculado como: [(2*i)+1]
-**/
+ * Obtém o índice do filho da direita
+ *
+ * @param: i o índice de um nó do heap
+ * @return: o índice do filho da direita, calculado como: [(2*i)+1]
+ */
 int get_right_index(int i);
 
 /**
-* 	Função para trocar a posição de dois itens do heap
-* 	@param: recebe os dois itens
-*	@return: posições do item_1 e item_2 trocadas
-**/
-void swap_data(void** item_1, void** item_2);
+ * Troca a posição de dois itens do heap
+ *
+ * @param: **item_1 item a ser trocado
+ * @param: **item_2 item a ser trocado
+ */
+void swap_data(void **item_1, void **item_2);
 
 /**
-* 	Adicionar um nó da árvore de huffman na fila de prioridade(Heap)
-* 	@param: recebe o heap, a prioridade do novo item e seus dados
-*	@return: enfileira o nó na fila de prioridade(heap)
-**/
-void enqueue(HEAP *heap, lli priority, void *item);
+ * Adiciona um nó da árvore de huffman na fila de prioridade(Heap)
+ *
+ * @param: *heap o heap
+ * @param: priority a prioridade do novo item
+ * @param: *data os dados do novo item
+ * @return: enfileira o nó na fila de prioridade(heap)
+ */
+void enqueue(HEAP *heap, lli priority, void *data);
 
 /** 
-*	Função de manutenção das carateríticas do heap mínimo
-*	@param: recebe o heap e a posição do nó que deve ser comparado com os filhos
-*	@return: cumpre as propriedades, mantendo os pais sendo menores que os filhos 
-**/
+ * Mantém as carateríticas do heap mínimo
+ *
+ * @param: *heap o heap
+ * @param: i a posição do nó que deve ser comparado com os filhos
+ */
 void min_heapify(HEAP *heap, int i);
 
 /**
-* 	Desenfileirar um item da fila de prioridade(Heap)
-* 	@param: recebe o heap
-*	@return: desenfileirará o nó na primeira posição do heap.
-**/
+ * Desenfileira um item da fila de prioridade(Heap)
+ *
+ * @param: *heap o heap
+ */
 void* dequeue(HEAP *heap);
+
+/**
+ * Libera toda a estrutura do heap da memória
+ *
+ * @param heap o heap a ser liberado da memória
+ */
+void free_heap(HEAP *heap);
 
 void print_heap(HEAP *heap, void (*print_func)(void *data));
 

@@ -18,13 +18,17 @@ unsigned char set_bit(unsigned char c, int i)
 void compress_file(FILE *input, FILE *output)
 {
     HEAP *heap = mount_heap(input);
+
     rewind(input);
+
     TREE *huff_tree = create_huffman_tree(heap);
-    unsigned short tree_sz = get_tree_size(huff_tree);
-    //TODO free_heap(heap);
-    
+
     HASH *paths = create_hash();
+
+    unsigned short tree_sz = get_tree_size(huff_tree);
+
     char path[tree_sz];
+
     map_paths(huff_tree, paths, path, 0);
 
 //    print_hash(paths);
@@ -35,17 +39,23 @@ void compress_file(FILE *input, FILE *output)
 //    printf("\n");
 
     write_pre_order_tree(huff_tree, output);
+
     unsigned char trash = 0;
-    if (is_leaf(huff_tree)){
+
+    if (is_leaf(huff_tree))
+    {
         trash = write_one_ascii_char_doc(input, output);
-    } else {
+    }
+    else
+    {
         trash = write_compress_doc(input, output, paths);
     }
 
     write_trash(trash, output);
 
     free_tree(huff_tree);
-    //TODO Consertar função free_hash(paths);
+    free_heap(heap);
+    free_hash(paths);
 }
 
 void write_tree_size(unsigned short tree_sz, FILE *file)

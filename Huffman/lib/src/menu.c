@@ -43,7 +43,7 @@ void print_menu()
 {
     printf("1 - Compress File\n");
     printf("2 - Decompress File\n");
-    printf("3- Exit\n");
+    printf("3 - Exit\n");
 }
 
 void compress_option()

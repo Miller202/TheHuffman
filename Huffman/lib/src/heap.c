@@ -5,11 +5,6 @@
 #include "heap.h"
 #include "utils.h"
 
-typedef struct _node {
-    lli priority;
-    void *data;
-} _node;
-
 _node* _create_node(lli priority, void *data)
 {
     _node *new_node = (_node *) malloc(sizeof(_node));
@@ -63,7 +58,7 @@ lli get_priority(HEAP *h, int index)
     return ((_node *) h->data[index])->priority;
 }
 
-void enqueue(HEAP *heap, lli priority, void *item)
+void enqueue(HEAP *heap, lli priority, void *data)
 {
     if (heap->size >= HEAP_MAX_SIZE - 1)
     {
@@ -71,9 +66,9 @@ void enqueue(HEAP *heap, lli priority, void *item)
     }
     else
     {
-        _node *new_node = _create_node(priority, item);
+        _node *new_node = _create_node(priority, data);
 
-        //Insere o nó na última posição na fila de prioridade;
+        // Insere o nó na última posição na fila de prioridade;
         heap->data[++heap->size] = new_node;
 
         // Guarda o índice atual
@@ -82,16 +77,16 @@ void enqueue(HEAP *heap, lli priority, void *item)
         // Guarda o índice do pai;
         int parent_index = get_parent_index(key_index);
 
-        //Enquanto a frequência do índice atual for maior que a do seu pai, troque suas posições.
+        // Enquanto a frequência do índice atual for maior que a do seu pai, suas posições são trocadas.
         while (parent_index >= 1 && get_priority(heap, key_index) < get_priority(heap, parent_index))
         {
-            // troca as posições
+            // Troca as posições
             swap_data(&heap->data[parent_index], &heap->data[key_index]);
 
-            //Atualiza o índice;
+            // Atualiza o índice;
             key_index = parent_index;
 
-            //Guarda o índice do novo pai;
+            // Guarda o índice do novo pai;
             parent_index = get_parent_index(key_index);
         }
     }
@@ -140,22 +135,35 @@ void *dequeue(HEAP *heap)
     }
     else
     {
-        /* Desenfileira o item da primeira posição da heap*/
+        // Desenfileira o item da primeira posição da heap
         _node *item = (_node *) heap->data[1];
 
-        // item da última posição é colocado na primeira
+        // O item da última posição é colocado na primeira
         heap->data[1] = heap->data[heap->size];
 
-        //após o desenfileiramento a propriedade da heap foi quebrada
+        heap->data[heap->size] = NULL;
+
+        // Após o desenfileiramento a propriedade da heap foi quebrada
         heap->size -= 1;
 
-        // portanto, chamamos a min_heapify para organizar a heap
+        // Portanto, min_heapify é chamada para organizar a heap
         min_heapify(heap, 1);
 
-        //retorna o item que foi desenfileirado
+        // Retorna o item que foi desenfileirado
         return item->data;
     }
 }
+
+void free_heap(HEAP *heap)
+{
+    for (int i = 1; i <= heap->size; ++i)
+    {
+        free((_node *) heap->data[i]);
+    }
+
+    free(heap);
+}
+
 
 void print_heap(HEAP *heap, void (*print_func)(void *data))
 {

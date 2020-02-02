@@ -35,6 +35,5 @@ void free_hash(HASH *ht)
         free(ht->table[i]);
     }
 
-    free(ht->table);
     free(ht);
 }
