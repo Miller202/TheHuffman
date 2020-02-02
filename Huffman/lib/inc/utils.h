@@ -46,6 +46,5 @@ void check_malloc(void *mem);
  */
 char* concat(char *s1, char *s2);
 
-void print_tree_node_heap(void *tree);
 
 #endif //HUFFMAN_UTILS_H

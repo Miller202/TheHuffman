@@ -89,9 +89,4 @@ TREE *create_huffman_tree(HEAP *heap);
 void write_pre_order_tree(TREE *tree, FILE *output);
 
 
-void print_tree_node(TREE *t);
-void print_tree_pre_order(TREE *t);
-void print_tree_pre_order_char(TREE *t);
-
-
 #endif //HUFFMAN_HUFF_TREE_H

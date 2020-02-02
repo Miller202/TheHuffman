@@ -77,7 +77,6 @@ TREE *create_huffman_tree(HEAP *heap)
     // Enquanto restar mais de 1 árvore na heap
 	while (heap->size > 1)
 	{
-
         // Pega as 2 árvores de menor frequência
 		TREE *left_child_tree = dequeue(heap);
 
@@ -151,31 +150,4 @@ void write_pre_order_tree(TREE *tree, FILE *output)
 	fwrite(&tree->c, 1, 1, output);
 	write_pre_order_tree(tree->left, output);
 	write_pre_order_tree(tree->right, output);
-}
-
-void print_tree_node(TREE *t)
-{
-    printf("<%c, %lld>", t->c, t->frequency);
-}
-
-void print_tree_pre_order(TREE *t)
-{
-    if (!is_empty(t))
-    {
-        printf(" (");
-        print_tree_node(t);
-        print_tree_pre_order(t->left);
-        print_tree_pre_order(t->right);
-        printf(") ");
-    }
-}
-
-void print_tree_pre_order_char(TREE *t)
-{
-    if (!is_empty(t))
-    {
-        printf("%c", t->c);
-        print_tree_pre_order_char(t->left);
-        print_tree_pre_order_char(t->right);
-    }
 }

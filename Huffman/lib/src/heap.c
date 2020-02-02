@@ -163,14 +163,3 @@ void free_heap(HEAP *heap)
 
     free(heap);
 }
-
-
-void print_heap(HEAP *heap, void (*print_func)(void *data))
-{
-    for (int i = 1; i <= heap->size; ++i)
-    {
-        print_func(((_node *) heap->data[i])->data);
-        printf(" ");
-    }
-}
-

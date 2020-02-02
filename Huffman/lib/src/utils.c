@@ -57,8 +57,3 @@ char* concat(char *s1, char *s2)
 
     return result;
 }
-
-void print_tree_node_heap(void *tree)
-{
-    print_tree_node((TREE *) tree);
-}

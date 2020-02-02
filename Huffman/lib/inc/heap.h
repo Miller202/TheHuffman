@@ -98,6 +98,5 @@ void* dequeue(HEAP *heap);
  */
 void free_heap(HEAP *heap);
 
-void print_heap(HEAP *heap, void (*print_func)(void *data));
 
 #endif //HUFFMAN_HEAP_H
