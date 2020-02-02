@@ -49,11 +49,11 @@ TREE* get_hufftree(FILE* input, TREE* tree)
 	return tree;
 }
 
-void decompress_file(FILE* input, FILE* output, TREE* tree, int trash_size)
+void decompress_one_ascii_file(FILE* input, FILE* output, TREE* tree, int trash_size)
 {
 	TREE* new_tree = tree;
 
-	int i, root_is_leaf = is_leaf(tree);
+	int i;
     unsigned char c_1, c_2;
 
     fscanf(input, "%c", &c_1);
@@ -61,17 +61,39 @@ void decompress_file(FILE* input, FILE* output, TREE* tree, int trash_size)
 	{
 		for(i = 7; i >= 0; i--)
 		{
-		    if (!root_is_leaf)
-            {
-                if(is_bit_set(c_1, i)) //se o bit da posicao atual ? 1, ent?o ir para a direita na ?rvore
-                {
-                    new_tree = new_tree->right;
-                }
-                else{
-                    new_tree = new_tree->left;
-                }
-            }
+			fprintf(output, "%c", new_tree->c);
+			new_tree = tree;
+		}
 
+        c_1 = c_2;
+	}
+
+    for(i = 7; i >= trash_size; i--)    //loop para o último byte
+    {
+		fprintf(output, "%c", new_tree->c);
+		new_tree = tree;
+    }
+}
+void decompress_file(FILE* input, FILE* output, TREE* tree, int trash_size)
+{
+	TREE* new_tree = tree;
+
+	int i;
+    unsigned char c_1, c_2;
+
+    fscanf(input, "%c", &c_1);
+	while(fscanf(input, "%c", &c_2) != EOF)
+	{
+		for(i = 7; i >= 0; i--)
+		{
+			if(is_bit_set(c_1, i)) //se o bit da posicao atual ? 1, ent?o ir para a direita na ?rvore
+			{
+				new_tree = new_tree->right;
+			}
+			else{
+				new_tree = new_tree->left;
+			}
+            
 			if (is_leaf(new_tree))
             {
                 fprintf(output, "%c", new_tree->c);
@@ -84,17 +106,13 @@ void decompress_file(FILE* input, FILE* output, TREE* tree, int trash_size)
 
     for(i = 7; i >= trash_size; i--)    //loop para o ?ltimo byte
     {
-        if (!root_is_leaf)
-        {
-
-            if(is_bit_set(c_1, i))
-            {
-                new_tree = new_tree->right;
-            }
-            else{
-                new_tree = new_tree->left;
-            }
-        }
+		if(is_bit_set(c_1, i))
+		{
+			new_tree = new_tree->right;
+		}
+		else{
+			new_tree = new_tree->left;
+		}
 
         if(is_leaf(new_tree))
         {
@@ -114,7 +132,13 @@ void decompress(FILE *input, FILE *output)
 
 	tree = get_hufftree(input, tree);
 
-	decompress_file(input, output, tree, trash_size);
+	if (is_leaf(tree)){
+		decompress_one_ascii_file(input, output, tree, trash_size);
+	}
+	else {
+		decompress_file(input, output, tree, trash_size);
+	}
+	
 
 	free_tree(tree);
 }

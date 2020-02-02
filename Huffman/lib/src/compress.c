@@ -50,19 +50,10 @@ void compress_file(FILE *input, FILE *output)
 
 void write_tree_size(unsigned short tree_sz, FILE *file)
 {
-    if (tree_sz > 255)      //se são necessários 2 bytes para escrever a árvore no arquivo
-    {
-        unsigned short bytes = tree_sz << 8;
-        bytes |= tree_sz >> 8;
+    unsigned short bytes = tree_sz << 8;
+    bytes |= tree_sz >> 8;
 
-        fwrite(&bytes, 2, 1, file);
-    }
-    else
-    {
-        unsigned char zero = 0;
-        fwrite(&zero, 1, 1, file);
-        fwrite(&tree_sz, 1, 1, file);
-    }
+    fwrite(&bytes, 2, 1, file);
 }
 
 void write_trash(unsigned char trash, FILE *file)
