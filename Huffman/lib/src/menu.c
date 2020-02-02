@@ -6,7 +6,7 @@
 #include "decompress.h"
 #include "menu.h"
 
-#define FILE_PATH "../../../Testes/"
+#define FILE_PATH "../Testes/"
 
 void menu_loop ()
 {
