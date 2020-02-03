@@ -68,8 +68,8 @@ void write_trash(u_char trash, FILE *file)
     u_char c;
     fscanf(file, "%c", &c);
 
-    trash = trash << 5;    //coloca os 3 últimos bits nas 3 primeiras posições do byte
-    trash |= c;             //"junta" os 2 bytes
+    trash = trash << 5;
+    trash |= c;
 
     rewind(file);
     fwrite(&trash, 1, 1, file);
@@ -110,18 +110,18 @@ u_char write_compress_doc(FILE *input, FILE *output, HASH *paths)
 
     while (fscanf(input, "%c", &c) != EOF)
     {
-        char *path = paths->table[c]; // Pega o novo mapeamento do char c
+        char *path = paths->table[c];
         path_size = strlen(path);
 
         for(i = 0; i < path_size; i++)
         {
             if (path[i] == '1') {
-                byte = set_bit(byte, bt_cont);  // Atribui o bit 1 na posição bt_cont do byte
+                byte = set_bit(byte, bt_cont);
             }
 
             bt_cont--;
 
-            if (bt_cont == -1) // Se já formou um byte
+            if (bt_cont == -1)
             {
                 fwrite(&byte, 1, 1, output);
 
@@ -131,10 +131,10 @@ u_char write_compress_doc(FILE *input, FILE *output, HASH *paths)
         }
     }
 
-    if (bt_cont == 7) {          //se não tem lixo
+    if (bt_cont == 7) {
         return 0;
     }
-    fwrite(&byte, 1, 1, output);        //escreve o último byte (com lixo no final)
+    fwrite(&byte, 1, 1, output);
 
-    return (u_char) (bt_cont + 1);   // Retorna o lixo do fim do arquivo
+    return (u_char) (bt_cont + 1);
 }

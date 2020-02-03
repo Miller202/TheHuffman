@@ -15,7 +15,7 @@ node* create_node_list(int item)
 
 node* add_list(node *head, int item)
 {
-	node *new_node = create_node_list(item); // cria o novo nó;node *new_node = (node*) malloc(sizeof(node));
+	node *new_node = create_node_list(item);
 
     new_node->next = head;
 
@@ -59,12 +59,12 @@ int search_list(node *head, int item, int *comp)
 
 }
 
-void print_linked_list(node *head) // imprime a lista
+void print_linked_list(node *head)
 {
-    if (head == NULL) // imprimir enquanto a lista nao acabar
+    if (head == NULL)
     {
         return;
     }
     printf("%d\n", head->item);
-    print_linked_list(head->next); // recursao para chamar o proximo head
+    print_linked_list(head->next);
 }

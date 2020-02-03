@@ -68,25 +68,18 @@ void enqueue(HEAP *heap, lli priority, void *data)
     {
         _node *new_node = _create_node(priority, data);
 
-        // Insere o nó na última posição na fila de prioridade;
         heap->data[++heap->size] = new_node;
 
-        // Guarda o índice atual
         int key_index = heap->size;
 
-        // Guarda o índice do pai;
         int parent_index = get_parent_index(key_index);
 
-        // Enquanto a frequência do índice atual for maior que a do seu pai, suas posições são trocadas.
         while (parent_index >= 1 && get_priority(heap, key_index) < get_priority(heap, parent_index))
         {
-            // Troca as posições
             swap_data(&heap->data[parent_index], &heap->data[key_index]);
 
-            // Atualiza o índice;
             key_index = parent_index;
 
-            // Guarda o índice do novo pai;
             parent_index = get_parent_index(key_index);
         }
     }
@@ -135,21 +128,16 @@ void *dequeue(HEAP *heap)
     }
     else
     {
-        // Desenfileira o item da primeira posição da heap
         _node *item = (_node *) heap->data[1];
 
-        // O item da última posição é colocado na primeira
         heap->data[1] = heap->data[heap->size];
 
         heap->data[heap->size] = NULL;
 
-        // Após o desenfileiramento a propriedade da heap foi quebrada
         heap->size -= 1;
 
-        // Portanto, min_heapify é chamada para organizar a heap
         min_heapify(heap, 1);
 
-        // Retorna o item que foi desenfileirado
         return item->data;
     }
 }

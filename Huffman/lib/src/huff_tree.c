@@ -47,7 +47,6 @@ u_short get_tree_size(TREE *tree)
         return 0;
     }
 
-    // Se um caracter especial está numa folha, no arquivo de texto, será escrito com 2 chars ('\*' ou '\\')
 	if (is_escape_char(tree, tree->c))
     {
         return 2;
@@ -74,26 +73,21 @@ lli get_parent_frequency(TREE *tree)
 
 TREE *create_huffman_tree(HEAP *heap)
 {
-    // Enquanto restar mais de 1 árvore na heap
 	while (heap->size > 1)
 	{
-        // Pega as 2 árvores de menor frequência
 		TREE *left_child_tree = dequeue(heap);
 
 		TREE *right_child_tree = dequeue(heap);
 
-        // Cria uma nova árvore, com a frequência igual a das 2 árvores de menor frequência
         TREE *parent_tree = create_node('*', 0, left_child_tree, right_child_tree);
 		parent_tree->frequency = get_parent_frequency(parent_tree);
 
-        // Adiciona a nova árvore à heap
 		enqueue(heap, parent_tree->frequency, parent_tree);
 	}
 
 
 	TREE *t = dequeue(heap);
 
-    // Retorna a raiz da árvore
 	return t;
 }
 
@@ -101,10 +95,8 @@ void map_paths(TREE *tree, HASH *hash, char *path, int i)
 {
 	if (!is_empty(tree))
     {
-        // Se é uma folha, temos um caminho formado
         if (is_leaf(tree))
         {
-            // Finaliza o caminho
             path[i] = '\0';
 
             char *finish_path = (char *) malloc(sizeof(char) * (strlen(path) + 1));
@@ -112,19 +104,16 @@ void map_paths(TREE *tree, HASH *hash, char *path, int i)
 
             strcpy(finish_path, path);
 
-            // Adiciona o caminho no hash
             put(hash, (int) tree->c, finish_path);
         }
         else
         {
-            // Há caminho à esquerda
             if (!is_empty(tree->left))
             {
                 path[i] = '0';
                 map_paths(tree->left, hash, path, i + 1);
             }
 
-            // Há caminho à direita
             if (!is_empty(tree->right))
             {
                 path[i] = '1';
@@ -141,7 +130,6 @@ void write_pre_order_tree(TREE *tree, FILE *output)
 		return;
 	}
 
-    // Se a folha tem um char especial, então escrevemos o caracter de escape
 	if (is_escape_char(tree, tree->c))
 	{
 	    fprintf(output, "%c", '\\');
